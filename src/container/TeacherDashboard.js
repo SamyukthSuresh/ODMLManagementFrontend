@@ -1,4 +1,5 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
+import axios from 'axios';
 import {
     Box,
     Button,
@@ -15,27 +16,63 @@ import { CheckboxSelected, Close, FormClose, Info, StatusGood, StatusWarning, Us
 import { Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
 const TeacherDashboard = () => {
-    const records = [
-        {
-            "suserid": "CB.EN.U4CSE18456",
-            "tuserid": "10CSE345",
-            "dos": "2020-01-12",
-            "doe": "2010-01-15",
-            "branch": "CSE",
-            "reason": "fever"
-        },
-        {
-            "suserid": "CB.EN.U4CSE18451",
-            "tuserid": "10CSE345",
-            "dos": "2020-03-12",
-            "doe": "2010-03-15",
-            "branch": "MEE",
-            "reason": "Gokulashtrami Practice Drama So i will not be attending the class"
-        },
-    ]
-    const submitTrue = () => {
-        alert("Button Clicked")
+    const [count, changeCount] = useState(0)
+    useEffect(() => {
+        (localStorage.getItem("chairperson") != 'Yes') ? axios.get('http://127.0.0.1:3001/teacherleaverecords/' + localStorage.getItem("tuserid"))
+            .then(res => {
+                console.log('hi')
+                console.log(res.data)
+                if (res.data != "No Data Available as of Now") {
+                    setStudent(res.data)
+                }
+                else {
+                    setStudent(null)
+                }
+            }).catch(error => {
+                console.log(error)
+                alert("Detail Fetch Failure")
+            }) : axios.get('http://127.0.0.1:3001/chairleaverecords/' + localStorage.getItem("tuserid").substring(2, 5))
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data != "No Data Available as of Now") {
+                        setStudent(res.data)
+                    }
+                    else {
+                        setStudent(null)
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    alert("Detail Fetch Failure")
+                })
+
+    }, [count]);
+    const decisionSubmit = (decision, suserid, dos, doe, reason) => {
+        console.log(decision, suserid, dos)
+        if (localStorage.getItem("chairperson") == 'Yes') {
+            if (decision == "Verified") {
+                decision = "Approved"
+            }
+        }
+        axios.post('http://127.0.0.1:3001/decisionteacher', { status: decision, suserid: suserid, dos: dos })
+            .then(res => {
+                console.log(res.data)
+                alert("Success")
+                if (decision == "Approved" || decision == "Rejected") {
+                    axios.post('http://127.0.0.1:3001/notifystudent', { status: decision, suserid: suserid, dos: dos, doe: doe, reason: reason })
+                        .then(res => {
+                            alert("SMS Sent")
+                        })
+                        .catch(err => {
+                            alert("Failed tO Send Sms")
+                        })
+                }
+            }).catch(error => {
+                console.log(error)
+                alert("Detail Fetch Failure")
+            })
+        changeCount(count + 1)
     }
+    const [student, setStudent] = useState()
     const [open, setOpen] = useState(true);
     const onClose = () => setOpen(undefined);
     const items = [
@@ -50,7 +87,7 @@ const TeacherDashboard = () => {
                 <Box direction="row" align="center" gap="small">
                     <User />
                     <Anchor color="white" href="#">
-                        Welcome {records[0].tuserid}
+                        Welcome {'10CSE345'}
                     </Anchor>
                 </Box>
                 <Nav direction="row">
@@ -64,63 +101,65 @@ const TeacherDashboard = () => {
                 <span class="lh-title ml3">The following are the Student Leave Details, Please verify and take appropriate action</span>
             </div>
             <Box>
-                <InfiniteScroll items={records} step={10}>
-                    {(item) => (
-                        <Accordion>
-                            <AccordionPanel key={item} label={item.suserid}>
-                                <Box align="center" pad="large">
-                                    <Form>
-                                        <Box border gap="medium" pad="large" width="medium">
-                                            <FormField
-                                                htmlFor="info-id"
-                                                name="info-demo"
-                                                label="Student ID"
-                                            >
-                                                <TextInput
-                                                    id="info-id"
-                                                    value={item.suserid}
-                                                />
-                                            </FormField>
-                                            <FormField
-                                                htmlFor="info-id"
-                                                name="info-demo"
-                                                label="Date of Start"
-                                            >
-                                                <TextInput
-                                                    id="dos"
-                                                    value={item.dos}
-                                                />
-                                            </FormField>
-                                            <FormField
-                                                htmlFor="info-id"
-                                                name="info-demo"
-                                                label="Date of End"
-                                            >
-                                                <TextInput
-                                                    id="doe"
-                                                    value={item.doe}
-                                                />
-                                            </FormField>
-                                            <FormField
-                                                htmlFor="info-id"
-                                                name="info-demo"
-                                                label="Reason"
-                                            >
-                                                <TextArea
-                                                    value={item.reason}
-                                                />
-                                            </FormField>
-                                            <Box direction="row" justify="between">
-                                                <a class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-green" href="#0" onClick={submitTrue}>Approve</a>
-                                                <a class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-red" href="#0">Reject</a>
+                {student ?
+                    <InfiniteScroll items={student} step={10}>
+                        {(item) => (
+                            <Accordion>
+                                <AccordionPanel key={item} label={item.suserid}>
+                                    <Box align="center" pad="large">
+                                        <Form>
+                                            <Box border gap="medium" pad="large" width="medium">
+                                                <FormField
+                                                    htmlFor="info-id"
+                                                    name="info-demo"
+                                                    label="Student ID"
+                                                >
+                                                    <TextInput
+                                                        id="info-id"
+                                                        value={item.suserid}
+                                                    />
+                                                </FormField>
+                                                <FormField
+                                                    htmlFor="info-id"
+                                                    name="info-demo"
+                                                    label="Date of Start"
+                                                >
+                                                    <TextInput
+                                                        id="dos"
+                                                        value={new Date(item.dos).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' })}
+                                                    />
+                                                </FormField>
+                                                <FormField
+                                                    htmlFor="info-id"
+                                                    name="info-demo"
+                                                    label="Date of End"
+                                                >
+                                                    <TextInput
+                                                        id="doe"
+                                                        value={new Date(item.doe).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' })}
+                                                    />
+                                                </FormField>
+                                                <FormField
+                                                    htmlFor="info-id"
+                                                    name="info-demo"
+                                                    label="Reason"
+                                                >
+                                                    <TextArea
+                                                        value={item.reason}
+                                                    />
+                                                </FormField>
+                                                <Box direction="row" justify="between">
+                                                    <a class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-green" onClick={() => decisionSubmit("Verified", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)}>Approve</a>
+                                                    <a class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-red" onClick={() => decisionSubmit("Rejected", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)}>Reject</a>
+                                                </Box>
                                             </Box>
-                                        </Box>
-                                    </Form>
-                                </Box>
-                            </AccordionPanel>
-                        </Accordion>
-                    )}
-                </InfiniteScroll>
+                                        </Form>
+                                    </Box>
+                                </AccordionPanel>
+                            </Accordion>
+                        )}
+                    </InfiniteScroll> : null}
+
             </Box>
             {
                 open && <Layer

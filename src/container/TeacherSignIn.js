@@ -18,11 +18,12 @@ const TeacherSignIn = () => {
     const [password, setPassword] = useState("")
     const [reveal, setReveal] = useState(false);
     const onSubmitSignIn = () => {
-        console.log(username, password)
         if (username && password) {
             axios.post('http://127.0.0.1:3001/signinteacher', { tuserid: username, password: password })
                 .then(res => {
                     if ((res.data.status).length > 0) {
+                        localStorage.setItem("tuserid", res.data.tuserid)
+                        localStorage.setItem("chairperson", res.data.chairperson)
                         history.replace('/teacherdashboard')
                     }
                 }).catch(error => {
