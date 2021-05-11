@@ -1,16 +1,20 @@
 import { React, useState } from 'react';
 import axios from 'axios';
-import { Box, Grommet, Text, Button, Image } from 'grommet';
+import { Box, Grommet, Text, Button, Image, Header, Nav, Anchor } from 'grommet';
 import { grommet } from 'grommet/themes';
 import { Update, Checkmark, Close, StatusWarning, FormClose } from 'grommet-icons'
 import empty from '../assets/empty.svg'
-import { StatusGood } from 'grommet-icons';
+import { StatusGood, User } from 'grommet-icons';
 import { Layer } from 'grommet';
 export const AdminTeacherVerify = () => {
     const [open, setOpen] = useState(true);
     const [message, setMessage] = useState("Succcesfully Signed In To Admin Portal")
     const [msgstatus, setMsgStatus] = useState("status-ok")
     const onClose = () => setOpen(undefined);
+    const items = [
+        { label: 'Verify Teacher', href: '/adminteacherverify' },
+        { label: 'Revoke Access', href: '/adminrevoke' },
+    ];
     const getDetails = () => {
         axios.get('http://127.0.0.1:3001/forms')
             .then(res => {
@@ -47,6 +51,19 @@ export const AdminTeacherVerify = () => {
     }
     const [teacher, setTeacher] = useState()
     return (<Grommet theme={grommet} themeMode="dark-3">
+        <Header background="dark-1" pad="small">
+            <Box direction="row" align="center" gap="small">
+                <User />
+                <Anchor color="white" >
+                    Welcome Admin
+                </Anchor>
+            </Box>
+            <Nav direction="row">
+                {items.map(item => (
+                    <Anchor href={item.href} label={item.label} key={item.label} />
+                ))}
+            </Nav>
+        </Header>
         <Box pad="small" direction="column">
             <div className="f2 w-100 pa2">
                 <Text>Fetch the Teachers Details for Registration Approval</Text>

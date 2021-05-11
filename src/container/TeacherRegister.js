@@ -17,6 +17,7 @@ export const TeacherRegister = () => {
     const daysInMonth = month => new Date(2021, month, 0).getDate();
     const [name, setName] = useState('');
     const [lastName, setlastName] = useState('');
+    const [phNo, setPhoneNumber] = useState();
     const [email, setEmail] = useState('');
     const [rollNo, setRollNumber] = useState();
     const [doj, setDoj] = useState('');
@@ -24,7 +25,7 @@ export const TeacherRegister = () => {
     const [password, setPassword] = useState();
     const [reveal, setReveal] = useState("")
     const onSubmitSignUp = () => {
-        if (name && lastName && email && branch && password && doj) {
+        if (name && lastName && email && branch && password && doj && phNo) {
             axios.post('http://127.0.0.1:3001/registerteacher', {
                 tuserid: rollNo,
                 lastname: lastName,
@@ -33,6 +34,7 @@ export const TeacherRegister = () => {
                 branch: branch,
                 email: email,
                 password: password,
+                phoneNumber: phNo
             }).then(res => {
                 alert("Register Successfull")
             }).catch(error => {
@@ -103,6 +105,20 @@ export const TeacherRegister = () => {
                             onSubmit={onSubmitSignUp}
                         >
                         </Form>
+                        <FormField label="Phone Number" name="phNo" >
+                            <MaskedInput
+                                name="phNo"
+                                mask={[
+                                    {
+                                        length: 10,
+                                        regexp: /^[0-9]{1,10}$/,
+                                        placeholder: 'Phone Number',
+                                    },
+                                ]}
+                                value={phNo}
+                                onChange={event => setPhoneNumber(event.target.value)}
+                            />
+                        </FormField>
                         <FormField label="Date of Joining" name="doj">
                             <MaskedInput
                                 mask={[

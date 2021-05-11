@@ -55,15 +55,15 @@ const StudentDashboard = () => {
     const onClose = () => setOpen(undefined);
     const items = [
         { label: 'Dashboard', href: '/studentDashboard' },
-        { label: 'Past Application', href: '#' },
+        { label: 'Past Application', href: '/studentpastapplication' },
     ];
     return (
         <Grommet full theme={grommet}>
             <Header background="dark-1" pad="small">
                 <Box direction="row" align="center" gap="small">
                     <User />
-                    <Anchor color="white" href="#">
-                        Welcome Samyukth
+                    <Anchor color="white">
+                        Welcome {localStorage.getItem('suserid')}
                     </Anchor>
                 </Box>
                 <Nav direction="row">

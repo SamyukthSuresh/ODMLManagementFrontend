@@ -1,0 +1,9 @@
+3. Change Password for Teacher
+4. OTP based login for both Student and Teacher
+6. Revoke access for a Student or Teacher -- Admin
+7. Do not need to ask branch of student in leave form 
+8. Display teacher name in dropdown 
+9. reset on submit of form
+10 do not accept duplicate forms on submission
+11.display some message to show that the form is submitted properly
+12. Validate Form dates atleast!

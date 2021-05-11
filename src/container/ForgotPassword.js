@@ -6,14 +6,17 @@ import {
     Grommet,
     TextInput,
     Image,
+    Select,
 } from 'grommet';
 import passwordImage from '../assets/password.svg'
 import { grommet } from 'grommet/themes';
 const ForgotPassword = () => {
     const [email, setEmail] = useState("")
+    const [id, setId] = useState("")
+    const options = ['student', 'teacher']
     const onSubmitForgotPassword = () => {
         if (email) {
-            axios.post('http://127.0.0.1:3001/requestpassword', { email: email })
+            axios.post('http://127.0.0.1:3001/requestpassword', { email: email, id: id })
                 .then(res => {
                     console.log(res)
                     alert("Successful Check your Email")
@@ -49,6 +52,14 @@ const ForgotPassword = () => {
                             type={'text'}
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
+                        />
+                        <Select
+                            id="select"
+                            name="id"
+                            placeholder="Choose.."
+                            value={id}
+                            options={options}
+                            onChange={({ option }) => setId(option)}
                         />
                     </Box>
 
