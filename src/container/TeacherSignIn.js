@@ -12,7 +12,7 @@ import {
     Tabs,
     Tab
 } from 'grommet';
-import { Hide, View } from 'grommet-icons';
+import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/teacher.svg'
 import { grommet } from 'grommet/themes';
 const TeacherSignIn = () => {
@@ -89,6 +89,9 @@ const TeacherSignIn = () => {
     document.body.style.overflow = "hidden"
     return (
         <Grommet full theme={grommet}>
+            <Box pad="small" justify="start" align="start" >
+                <Button primary icon={<Home />} label="Go to Home" hoverIndicator="light-1" onClick={() => { history.replace('/') }} />
+            </Box>
             <Box fill align="center" justify="center">
                 <Box height="small" width="large" style={{
                     marginBottom: "3%",

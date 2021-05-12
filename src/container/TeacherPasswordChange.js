@@ -1,6 +1,5 @@
 import { React, useState } from 'react';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
 import {
     Box,
     Button,
@@ -18,7 +17,7 @@ import {
     MaskedInput,
 
 } from 'grommet';
-import { Hide, View, User, StatusWarning, StatusGood, FormClose } from 'grommet-icons';
+import { Hide, View, User } from 'grommet-icons';
 import passImage from '../assets/teacherpass.svg'
 import LogOut from './LogOut';
 import { grommet } from 'grommet/themes';
@@ -35,7 +34,6 @@ const TeacherPasswordChange = () => {
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
-    const history = useHistory();
     const [password, setPassword] = useState("")
     const [newpass, setPass] = useState('')
     const [email, setEmail] = useState("")
@@ -97,7 +95,7 @@ const TeacherPasswordChange = () => {
                 </Box>
                 <Nav direction="row">
                     {items.map(item => (
-                        item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/teachersignin'} />
+                        item.value !== 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/teachersignin'} />
                     ))}
                 </Nav>
             </Header>

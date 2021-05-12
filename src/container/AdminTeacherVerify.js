@@ -20,21 +20,19 @@ export const AdminTeacherVerify = () => {
     const getDetails = () => {
         axios.get('http://127.0.0.1:3001/forms')
             .then(res => {
-                console.log(res.data)
                 if (res.data.length > 0) { setTeacher(res.data) }
                 else {
                     setTeacher(null)
                 }
 
             }).catch(error => {
-                console.log(error)
                 alert("Detail Fetch Failure")
             })
     }
     const verifyTeacher = (userid, status) => {
         axios.post('http://127.0.0.1:3001/decision', { tuserid: userid, status: status })
             .then(res => {
-                if (status == "APPROVED") {
+                if (status === "APPROVED") {
                     setMessage("Approved User Registration")
                     setOpen(true)
                     setMsgStatus("status-ok")
@@ -44,10 +42,8 @@ export const AdminTeacherVerify = () => {
                     setOpen(true)
                     setMsgStatus("status-critical")
                 }
-                console.log(res.data)
                 getDetails()
             }).catch(error => {
-                console.log(error)
                 alert("Verification Failure")
             })
     }
@@ -62,7 +58,7 @@ export const AdminTeacherVerify = () => {
             </Box>
             <Nav direction="row">
                 {items.map(item => (
-                    item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/adminsignin'} />
+                    item.value !== 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/adminsignin'} />
                 ))}
             </Nav>
         </Header>

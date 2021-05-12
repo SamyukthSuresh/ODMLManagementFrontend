@@ -1,5 +1,0 @@
-alert in sign in forms for every page
-alert in registration forms
-alert after approval or rejection of records
-alert after password change 
-request cancelled or not

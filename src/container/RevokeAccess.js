@@ -1,11 +1,8 @@
 import { React, useState } from 'react';
 import axios from 'axios';
-import { Box, Grommet, Text, Button, Image, Header, Nav, Anchor, Form, FormField, Select, TextInput, MaskedInput } from 'grommet';
+import { Box, Grommet, Button, Image, Header, Nav, Anchor, Select, TextInput } from 'grommet';
 import { grommet } from 'grommet/themes';
-import { Update, Checkmark, Close, StatusWarning, FormClose } from 'grommet-icons'
-import empty from '../assets/empty.svg'
-import { StatusGood, User } from 'grommet-icons';
-import { Layer } from 'grommet';
+import { User } from 'grommet-icons';
 import passImage from '../assets/lock.svg'
 import LogOut from './LogOut';
 import Swal from 'sweetalert2'
@@ -57,7 +54,7 @@ export const RevokeAccess = () => {
                 </Box>
                 <Nav direction="row">
                     {items.map(item => (
-                        item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/adminsignin'} />
+                        item.value !== 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/adminsignin'} />
                     ))}
                 </Nav>
 

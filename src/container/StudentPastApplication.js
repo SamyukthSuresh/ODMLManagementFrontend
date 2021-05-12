@@ -18,7 +18,7 @@ import {
 import { grommet } from 'grommet/themes';
 import '../Theme/StudentPastApplication.css'
 import LogOut from './LogOut';
-import { User, Search, Info, Favorite, ShareOption, Filter, Close, WifiNone } from 'grommet-icons';
+import { User, Search, Filter, Close } from 'grommet-icons';
 const StudentPastApplication = () => {
     const Toast = Swal.mixin({
         toast: true,
@@ -41,11 +41,11 @@ const StudentPastApplication = () => {
         { label: 'Past Application', href: '/studentpastapplication', value: 1 },
         { label: 'Button', href: '#', value: 2 },
     ];
-    useEffect(() => {
+    useEffect((Toast) => {
         axios.get('http://127.0.0.1:3001/leavestatus/' + localStorage.getItem("suserid"))
             .then(res => {
                 console.log(res.data)
-                if (res.data != "No Data Available as of Now") {
+                if (res.data !== "No Data Available as of Now") {
                     setStudent(res.data)
                 }
                 else {
@@ -100,7 +100,7 @@ const StudentPastApplication = () => {
                 </Box>
                 <Nav direction="row">
                     {items.map(item => (
-                        item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/signin'} />
+                        item.value !== 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/signin'} />
                     ))}
                 </Nav>
             </Header>
@@ -108,14 +108,14 @@ const StudentPastApplication = () => {
                 student.filter(item => filter === "Reason" ? item.reason.toLowerCase().includes(search.toLowerCase()) : new Date(item.dos).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' }).includes(search)).map((item, key) => (
                     <div class='fl w-third pa2'>
                         <Card style={{ 'marginLeft': "6%" }} height="small" width="medium" background="light-1">
-                            <CardBody pad="medium" background={item.approval != 'Rejected' ? item.approval == "Approved" ? 'status-ok' : 'status-warning' : 'status-critical'}>
+                            <CardBody pad="medium" background={item.approval !== 'Rejected' ? item.approval === "Approved" ? 'status-ok' : 'status-warning' : 'status-critical'}>
                                 <Text weight="bold">LEAVE ID:{key}</Text>
                                 <Text weight="bold">DOS: {new Date(item.dos).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' })}</Text>
                                 <Text weight="bold">DOE: {new Date(item.doe).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' })}</Text>
                                 <Text weight="bold">{item.reason}</Text>
                             </CardBody>
                             <CardFooter background="light-2" >
-                                <Button disabled={item.approval == "Approved" ? true : false} margin="small" style={{ 'marginLeft': "26%" }} label="Cancel Request" icon={<Close color="red" />} hoverIndicator plain={true} onClick={() => { cancelLeave(item) }} />
+                                <Button disabled={item.approval === "Approved" ? true : false} margin="small" style={{ 'marginLeft': "26%" }} label="Cancel Request" icon={<Close color="red" />} hoverIndicator plain={true} onClick={() => { cancelLeave(item) }} />
                             </CardFooter></Card>
                     </div>
                 )) : null}

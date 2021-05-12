@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 import {
     Box,
     Button,
@@ -7,70 +8,91 @@ import {
     Text,
     Accordion, AccordionPanel,
     Header, Nav,
-    Avatar, Anchor, Form,
+    Anchor, Form,
     FormField, TextInput,
-    InfiniteScroll,
     TextArea
 } from 'grommet';
-import { CheckboxSelected, Close, FormClose, Info, StatusGood, StatusWarning, User, Validate, Search } from 'grommet-icons';
+import { FormClose, Info, StatusGood, User, Search } from 'grommet-icons';
 import { Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
 const TeacherDashboard = () => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
     const [count, changeCount] = useState(0)
     const [search, setSearch] = useState("");
     useEffect(() => {
-        (localStorage.getItem("chairperson") != 'Yes') ? axios.get('http://127.0.0.1:3001/teacherleaverecords/' + localStorage.getItem("tuserid"))
+        (localStorage.getItem("chairperson") !== 'Yes') ? axios.get('http://127.0.0.1:3001/teacherleaverecords/' + localStorage.getItem("tuserid"))
             .then(res => {
-                console.log('hi')
-                console.log(res.data)
-                if (res.data != "No Data Available as of Now") {
+                if (res.data !== "No Data Available as of Now") {
                     setStudent(res.data)
                 }
                 else {
                     setStudent(null)
                 }
             }).catch(error => {
-                console.log(error)
-                alert("Detail Fetch Failure")
+                Toast.fire({
+                    icon: "error",
+                    title: 'Detail Fetch Failure'
+                })
             }) : axios.get('http://127.0.0.1:3001/chairleaverecords/' + localStorage.getItem("tuserid").substring(2, 5))
                 .then(res => {
-                    console.log(res.data)
-                    if (res.data != "No Data Available as of Now") {
+                    if (res.data !== "No Data Available as of Now") {
                         setStudent(res.data)
                     }
                     else {
                         setStudent(null)
                     }
                 }).catch(error => {
-                    console.log(error)
-                    alert("Detail Fetch Failure")
+                    Toast.fire({
+                        icon: "error",
+                        title: 'Detail Fetch Failure'
+                    })
                 })
-
-    }, [count]);
+    }, [count, Toast]);
     const decisionSubmit = (decision, suserid, dos, doe, reason) => {
-        console.log(decision, suserid, dos)
-        if (localStorage.getItem("chairperson") == 'Yes') {
-            if (decision == "Verified") {
+        if (localStorage.getItem("chairperson") === 'Yes') {
+            if (decision === "Verified") {
                 decision = "Approved"
             }
         }
         axios.post('http://127.0.0.1:3001/decisionteacher', { status: decision, suserid: suserid, dos: dos })
             .then(res => {
-                console.log(res.data)
-                alert("Success")
-                if (decision == "Approved" || decision == "Rejected") {
+                if (decision === "Approved" || decision === "Rejected") {
                     axios.post('http://127.0.0.1:3001/notifystudent', { status: decision, suserid: suserid, dos: dos, doe: doe, reason: reason })
                         .then(res => {
-                            alert("SMS Sent")
+                            Toast.fire({
+                                icon: "success",
+                                title: 'SMS Sent'
+                            })
                         })
                         .catch(err => {
-                            alert("Failed tO Send Sms")
+                            Toast.fire({
+                                icon: "error",
+                                title: 'Failed to send SMS'
+                            })
                         })
                 }
+                else {
+                    Toast.fire({
+                        icon: "success",
+                        title: 'Decision Registered'
+                    })
+                }
             }).catch(error => {
-                console.log(error)
-                alert("Detail Fetch Failure")
+                Toast.fire({
+                    icon: "error",
+                    title: 'Detail Fetch Failure'
+                })
             })
         changeCount(count + 1)
     }
@@ -83,8 +105,6 @@ const TeacherDashboard = () => {
         { label: 'Password Change', href: '/teacherchangepassword', value: 1 },
         { label: 'Button', href: '#', value: 2 },
     ];
-    const gravatarSrc =
-        '//s.gravatar.com/avatar/b7fb138d53ba0f573212ccce38a7c43b?s=80';
     return (
         <Grommet full theme={grommet} style={{ overflowY: 'scroll' }}>
             <Header background="dark-1" pad="small">
@@ -97,7 +117,7 @@ const TeacherDashboard = () => {
                 </Box>
                 <Nav direction="row">
                     {items.map(item => (
-                        item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/teachersignin'} />
+                        item.value !== 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/teachersignin'} />
                     ))}
                 </Nav>
             </Header>
@@ -112,6 +132,16 @@ const TeacherDashboard = () => {
                             <Box align="center" pad="large">
                                 <Form>
                                     <Box border gap="medium" pad="large" width="medium">
+                                        {localStorage.getItem('chairperson') === 'Yes' ? <FormField
+                                            htmlFor="info-id"
+                                            name="info-demo"
+                                            label="Verified By"
+                                        >
+                                            <TextInput
+                                                id="info-id"
+                                                value={item.tuserid}
+                                            />
+                                        </FormField> : null}
                                         <FormField
                                             htmlFor="info-id"
                                             name="info-demo"
@@ -151,7 +181,7 @@ const TeacherDashboard = () => {
                                                 value={item.reason}
                                             />
                                         </FormField>
-                                        {item.cert != 'NA' ? <FormField
+                                        {item.cert !== 'NA' ? <FormField
                                             htmlFor="info-id2"
                                             name="info-demo2"
                                             label="Medical Certificate"
@@ -162,8 +192,8 @@ const TeacherDashboard = () => {
                                         </FormField> : null}
 
                                         <Box direction="row" justify="between">
-                                            <a class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-green" onClick={() => decisionSubmit("Verified", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)}>Approve</a>
-                                            <a class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-red" onClick={() => decisionSubmit("Rejected", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)}>Reject</a>
+                                            <Button label="Approve" style={{ backgroundColor: '#4BB543' }} onClick={() => decisionSubmit("Verified", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)} />
+                                            <Button label="Reject" style={{ backgroundColor: '#FF6347' }} onClick={() => decisionSubmit("Rejected", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)} />
                                         </Box>
                                     </Box>
                                 </Form>
@@ -201,7 +231,7 @@ const TeacherDashboard = () => {
                     </Box>
                 </Layer>
             }
-        </Grommet >
+        </Grommet>
     );
 };
 

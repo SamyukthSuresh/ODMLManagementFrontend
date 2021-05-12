@@ -8,7 +8,7 @@ import {
     TextInput,
     Image,
 } from 'grommet';
-import { Hide, View } from 'grommet-icons';
+import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/adminSignIn.svg'
 import { grommet } from 'grommet/themes';
 import Swal from 'sweetalert2'
@@ -20,7 +20,6 @@ const AdminSignIn = () => {
         if (password) {
             axios.post('http://127.0.0.1:3001/signinadmin', { password: password })
                 .then(res => {
-                    console.log(res)
                     history.replace('/adminteacherverify')
                 }).catch(error => {
                     Swal.fire({
@@ -34,6 +33,9 @@ const AdminSignIn = () => {
     document.body.style.overflow = "hidden"
     return (
         <Grommet full theme={grommet}>
+            <Box pad="small" justify="start" align="start" >
+                <Button primary icon={<Home />} label="Go to Home" hoverIndicator="light-1" onClick={() => { history.replace('/') }} />
+            </Box>
             <Box fill align="center" justify="center">
                 <Box height="small" width="large" style={{
                     marginBottom: "3%",

@@ -5,7 +5,6 @@ import {
     Button,
     Grommet,
     Text,
-    Image,
     Anchor,
     Header,
     Nav,
@@ -16,15 +15,13 @@ import {
     MaskedInput,
     Select
 } from 'grommet';
-import underConstruction from '../assets/error.svg'
 import Swal from 'sweetalert2'
 import { FormClose, StatusGood, User } from 'grommet-icons';
-
 import { Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
 const StudentDashboard = () => {
-    const specialToast = Swal.mixin({
+    const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -43,18 +40,20 @@ const StudentDashboard = () => {
     const [tuserid, settuserid] = useState(null);
     const [haveAlias, setHaveAlias] = useState(false);
     const [teachers, setTeachers] = useState([{ tuserid: "Choose" }]);
-    const [count, setCount] = useState(0);
-    useEffect(() => { getTeacherList(branch) }, [count]);
+    useEffect(() => { getTeacherList(branch) });
     const getTeacherList = (dept) => {
         setBranch(dept)
         axios.get('http://127.0.0.1:3001/teachdept/' + dept).then(res => {
-            if (res.data != 'NA') { setTeachers(res.data) }
+            if (res.data !== 'NA') { setTeachers(res.data) }
             else {
                 setTeachers([{ tuserid: "Choose" }])
                 settuserid(null)
             }
         }).catch(error => {
-            alert("Unable To Fetch Teachers")
+            Toast.fire({
+                icon: 'error',
+                title: 'Invalid Dates',
+            })
         })
     }
     const checkCurrDate = (dos, doe, alias) => {
@@ -74,15 +73,15 @@ const StudentDashboard = () => {
     }
     const onSubmitLeaveRecord = (value) => {
         let res = checkCurrDate(dos, doe, haveAlias)
-        if (res == false) {
-            specialToast.fire({
+        if (res === false) {
+            Toast.fire({
                 icon: 'error',
                 title: 'Invalid Dates',
             })
         }
-        if (res && value && tuserid != null && tuserid != "Choose" && branch) {
+        if (res && value && tuserid !== null && tuserid !== "Choose" && branch) {
             axios.post('http://127.0.0.1:3001/leaverequest', { suserid: localStorage.getItem("suserid"), tuserid: value.tuserid.split('-')[0].trim(), dos: value.dos, doe: value.doe, reason: value.reason, cert: value.alias ? value.alias : 'NA', branch: localStorage.getItem('suserid').substring(8, 11) }).then(res => {
-                if (res.data.status == "Redundant copies of Leave Records") {
+                if (res.data.status === "Redundant copies of Leave Records") {
                     Swal.fire({
                         icon: 'error',
                         title: 'Unable to Submit your request',
@@ -91,7 +90,7 @@ const StudentDashboard = () => {
                     })
                 }
                 else {
-                    specialToast.fire({
+                    Toast.fire({
                         icon: 'success',
                         title: 'Request Registered',
                     })

@@ -17,8 +17,6 @@ import {
 } from 'grommet';
 import { Hide, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
-import { StatusWarning, FormClose } from 'grommet-icons'
-import { StatusGood } from 'grommet-icons';
 export const SignUp = () => {
     const Toast = Swal.mixin({
         toast: true,
@@ -46,9 +44,15 @@ export const SignUp = () => {
     const [open, setOpen] = React.useState(false);
     const [otp, setOtp] = useState();
     const onSubmitSignUp = () => {
-        console.log("Iam In")
-        console.log(name + " " + lastName + " " + email + " " + dob + " " + yoc + " " + branch + " " + section + " " + password)
-        if (name && lastName && email && dob && yoc && branch && section && password) {
+        let res = checkBranch(rollNo, branch)
+        if (res === false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Roll Number and Branch doesn\'t match'
+            })
+        }
+        if (res && name && lastName && email && dob && yoc && branch && section && password) {
             axios.post('http://127.0.0.1:3001/registerstudent', {
                 suserid: rollNo,
                 firstname: name,
@@ -64,9 +68,18 @@ export const SignUp = () => {
             })
         }
     }
+
+    const checkBranch = () => {
+        if (rollNo.substring(8, 11) === branch) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
     const onOTPSubmit = () => {
         setOpen(false)
-        if (name && lastName && email && dob && yoc && branch && section && password, otp) {
+        if (name && lastName && email && dob && yoc && branch && section && password && otp) {
             axios.post('http://127.0.0.1:3001/verifystudent', {
                 suserid: rollNo,
                 lastname: lastName,
@@ -187,7 +200,7 @@ export const SignUp = () => {
                                 mask={[
                                     {
                                         length: 4,
-                                        options: Array.from({ length: 100 }, (v, k) => 2019 - k),
+                                        options: Array.from({ length: 6 }, (v, k) => 2004 - k),
                                         regexp: /^[1-2]$|^19$|^20$|^19[0-9]$|^20[0-9]$|^19[0-9][0-9]$|^20[0-9][0-9]$/,
                                         placeholder: 'yyyy',
                                     },
@@ -221,7 +234,7 @@ export const SignUp = () => {
                                 mask={[
                                     {
                                         length: 4,
-                                        options: Array.from({ length: 100 }, (v, k) => 2030 - k),
+                                        options: Array.from({ length: 5 }, (v, k) => 2025 - k),
                                         regexp: /^[1-2]$|^19$|^20$|^19[0-9]$|^20[0-9]$|^19[0-9][0-9]$|^20[0-9][0-9]$/,
                                         placeholder: 'yyyy',
                                     },

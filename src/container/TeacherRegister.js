@@ -15,17 +15,6 @@ import Swal from 'sweetalert2'
 import { Hide, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 export const TeacherRegister = () => {
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
     const daysInMonth = month => new Date(2021, month, 0).getDate();
     const [name, setName] = useState('');
     const [lastName, setlastName] = useState('');
@@ -144,7 +133,7 @@ export const TeacherRegister = () => {
                                 mask={[
                                     {
                                         length: 4,
-                                        options: Array.from({ length: 100 }, (v, k) => 2019 - k),
+                                        options: Array.from({ length: 28 }, (v, k) => 2021 - k),
                                         regexp: /^[1-2]$|^19$|^20$|^19[0-9]$|^20[0-9]$|^19[0-9][0-9]$|^20[0-9][0-9]$/,
                                         placeholder: 'yyyy',
                                     },

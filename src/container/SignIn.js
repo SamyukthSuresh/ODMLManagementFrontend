@@ -12,7 +12,7 @@ import {
     Tabs,
     Tab
 } from 'grommet';
-import { Hide, View } from 'grommet-icons';
+import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/signIn.svg'
 import { grommet } from 'grommet/themes';
 const SignIn = () => {
@@ -89,6 +89,9 @@ const SignIn = () => {
     document.body.style.overflow = "hidden"
     return (
         <Grommet full theme={grommet}>
+            <Box pad="small" justify="start" align="start" >
+                <Button primary icon={<Home />} label="Go to Home" hoverIndicator="light-1" onClick={() => { history.replace('/') }} />
+            </Box>
             <Box fill align="center" justify="center">
                 <Box height="small" width="large" style={{
                     marginBottom: "3%",
@@ -105,7 +108,7 @@ const SignIn = () => {
                                 round="small"
                                 border
                                 style={{
-                                    marginBottom: "10%",
+                                    marginBottom: "12%",
                                 }}>
                                 <TextInput
                                     plain
