@@ -7,20 +7,41 @@ import empty from '../assets/empty.svg'
 import { StatusGood, User } from 'grommet-icons';
 import { Layer } from 'grommet';
 import passImage from '../assets/lock.svg'
+import LogOut from './LogOut';
+import Swal from 'sweetalert2'
 export const RevokeAccess = () => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
     const [id, setId] = useState('')
     const [userid, setUserId] = useState()
     const items = [
-        { label: 'Verify Teacher', href: '/adminteacherverify' },
-        { label: 'Revoke Access', href: '/adminrevoke' },
+        { label: 'Verify Teacher', href: '/adminteacherverify', value: 0 },
+        { label: 'Revoke Access', href: '/adminrevoke', value: 1 },
+        { label: 'Button', href: '#', value: 2 },
+
     ];
     const revoke = () => {
         if (id && userid) {
             axios.post('http://127.0.0.1:3001/revoke', { id: id, userid: userid })
                 .then(res => {
-                    alert("Success")
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Success'
+                    })
                 }).catch(error => {
-                    alert("Failure")
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed'
+                    })
                 })
         }
     }
@@ -36,9 +57,10 @@ export const RevokeAccess = () => {
                 </Box>
                 <Nav direction="row">
                     {items.map(item => (
-                        <Anchor href={item.href} label={item.label} key={item.label} />
+                        item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/adminsignin'} />
                     ))}
                 </Nav>
+
             </Header>
             <Box fill align="center" justify="center">
                 <Box height="small" width="large" style={{

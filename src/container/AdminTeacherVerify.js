@@ -6,14 +6,16 @@ import { Update, Checkmark, Close, StatusWarning, FormClose } from 'grommet-icon
 import empty from '../assets/empty.svg'
 import { StatusGood, User } from 'grommet-icons';
 import { Layer } from 'grommet';
+import LogOut from './LogOut';
 export const AdminTeacherVerify = () => {
     const [open, setOpen] = useState(true);
     const [message, setMessage] = useState("Succcesfully Signed In To Admin Portal")
     const [msgstatus, setMsgStatus] = useState("status-ok")
     const onClose = () => setOpen(undefined);
     const items = [
-        { label: 'Verify Teacher', href: '/adminteacherverify' },
-        { label: 'Revoke Access', href: '/adminrevoke' },
+        { label: 'Verify Teacher', href: '/adminteacherverify', value: 0 },
+        { label: 'Revoke Access', href: '/adminrevoke', value: 1 },
+        { label: 'Button', href: '#', value: 2 },
     ];
     const getDetails = () => {
         axios.get('http://127.0.0.1:3001/forms')
@@ -60,7 +62,7 @@ export const AdminTeacherVerify = () => {
             </Box>
             <Nav direction="row">
                 {items.map(item => (
-                    <Anchor href={item.href} label={item.label} key={item.label} />
+                    item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/adminsignin'} />
                 ))}
             </Nav>
         </Header>

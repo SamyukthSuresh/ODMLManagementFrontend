@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 import {
     Box,
     Button,
@@ -19,6 +20,17 @@ import { grommet } from 'grommet/themes';
 import { StatusWarning, FormClose } from 'grommet-icons'
 import { StatusGood } from 'grommet-icons';
 export const SignUp = () => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
     const daysInMonth = month => new Date(2021, month, 0).getDate();
     const [name, setName] = useState('');
     const [lastName, setlastName] = useState('');
@@ -33,10 +45,6 @@ export const SignUp = () => {
     const [reveal, setReveal] = useState("")
     const [open, setOpen] = React.useState(false);
     const [otp, setOtp] = useState();
-    const [notifyopen, setNotifyOpen] = useState(false);
-    const [message, setMessage] = useState("")
-    const [msgstatus, setMsgStatus] = useState("status-ok")
-    const onClose = () => setNotifyOpen(undefined);
     const onSubmitSignUp = () => {
         console.log("Iam In")
         console.log(name + " " + lastName + " " + email + " " + dob + " " + yoc + " " + branch + " " + section + " " + password)
@@ -46,13 +54,13 @@ export const SignUp = () => {
                 firstname: name,
                 email: email,
             }).then(res => {
-                console.log(res)
                 setOpen(true)
             }).catch(error => {
-                console.log(error)
-                setMessage("Registration Unsuccessful")
-                setNotifyOpen(true)
-                setMsgStatus("status-critical")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Check your Data'
+                })
             })
         }
     }
@@ -73,15 +81,16 @@ export const SignUp = () => {
                 password: password,
                 otp: otp
             }).then(res => {
-                console.log(res)
-                setMessage("Registration Successful")
-                setNotifyOpen(true)
-                setMsgStatus("status-ok")
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Successfully Registered'
+                })
             }).catch(error => {
-                console.log(error)
-                setMessage("Registration Unsuccessful")
-                setNotifyOpen(true)
-                setMsgStatus("status-critical")
+                Toast.fire({
+                    icon: 'error',
+                    title: 'OTP Wrong'
+                })
+
             })
         }
     }
@@ -285,7 +294,7 @@ export const SignUp = () => {
                                             <strong>Cancel</strong>
                                         </Text>
                                     }
-                                    onClick={onClose}
+                                    onClick={() => { setOpen(false) }}
                                     primary
                                     color="status-critical"
                                 />
@@ -293,35 +302,8 @@ export const SignUp = () => {
                         </Box>
                     </Layer>
                 ) : null}
-                {notifyopen && <Layer
-                    position="bottom"
-                    modal={false}
-                    margin={{ vertical: 'medium', horizontal: 'small' }}
-                    onEsc={onClose}
-                    responsive={false}
-                    plain
-                >
-                    <Box
-                        align="center"
-                        direction="row"
-                        gap="small"
-                        justify="between"
-                        round="medium"
-                        elevation="medium"
-                        pad={{ vertical: 'xsmall', horizontal: 'small' }}
-                        background={msgstatus}
-                    >
-                        <Box align="center" direction="row" gap="xsmall">
-                            {msgstatus === "status-ok" ? <StatusGood /> : <StatusWarning />}
-                            <Text>
-                                {message}
-                            </Text>
-                        </Box>
-                        <Button icon={<FormClose />} onClick={onClose} plain />
-                    </Box>
-                </Layer>}
             </Grid>
-        </Grommet >
+        </Grommet>
     );
 };
 

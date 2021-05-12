@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import Swal from 'sweetalert2'
 import {
     Box,
     Button,
@@ -15,6 +16,17 @@ import { Hide, View } from 'grommet-icons';
 import signImage from '../assets/signIn.svg'
 import { grommet } from 'grommet/themes';
 const SignIn = () => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
     const history = useHistory();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("")
@@ -32,21 +44,27 @@ const SignIn = () => {
                         history.replace('/studentDashboard')
                     }
                 }).catch(error => {
-                    console.log(error)
-                    alert("Sign In Failed")
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Check your Credentials',
+                        footer: 'Forgot Password? Try logging in with OTP!</a>'
+                    })
                 })
         }
     }
     const onSendOTP = () => {
         if (roll) {
-            setGet(false)
             axios.post('http://127.0.0.1:3001/getotpsignin', { userid: roll })
                 .then(res => {
                     if ((res.data)) {
-                        alert("Success")
+                        setGet(false)
                     }
                 }).catch(error => {
-                    alert("Failed")
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Invalid ID'
+                    })
                 })
         }
     }
@@ -60,7 +78,10 @@ const SignIn = () => {
                         history.replace('/studentDashboard')
                     }
                 }).catch(error => {
-                    alert("Failed")
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Wrong OTP'
+                    })
                 })
         }
     }

@@ -8,9 +8,21 @@ import {
     Image,
     Select,
 } from 'grommet';
+import Swal from 'sweetalert2'
 import passwordImage from '../assets/password.svg'
 import { grommet } from 'grommet/themes';
 const ForgotPassword = () => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
     const [email, setEmail] = useState("")
     const [id, setId] = useState("")
     const options = ['student', 'teacher']
@@ -18,11 +30,15 @@ const ForgotPassword = () => {
         if (email) {
             axios.post('http://127.0.0.1:3001/requestpassword', { email: email, id: id })
                 .then(res => {
-                    console.log(res)
-                    alert("Successful Check your Email")
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Please Check your Email'
+                    })
                 }).catch(error => {
-                    console.log(error)
-                    alert("Failed Try Again")
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed Try Again'
+                    })
                 })
         }
     }

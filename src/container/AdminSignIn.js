@@ -11,6 +11,7 @@ import {
 import { Hide, View } from 'grommet-icons';
 import signImage from '../assets/adminSignIn.svg'
 import { grommet } from 'grommet/themes';
+import Swal from 'sweetalert2'
 const AdminSignIn = () => {
     const history = useHistory();
     const [password, setPassword] = useState("")
@@ -22,8 +23,11 @@ const AdminSignIn = () => {
                     console.log(res)
                     history.replace('/adminteacherverify')
                 }).catch(error => {
-                    console.log(error)
-                    alert("Sign In Failed")
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Check your Credentials'
+                    })
                 })
         }
     }
@@ -65,7 +69,7 @@ const AdminSignIn = () => {
                     </Box>
                 </Box>
             </Box>
-        </Grommet >
+        </Grommet>
     );
 };
 

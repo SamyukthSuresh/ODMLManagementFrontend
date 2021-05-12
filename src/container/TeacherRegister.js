@@ -11,9 +11,21 @@ import {
     Grid,
     Select,
 } from 'grommet';
+import Swal from 'sweetalert2'
 import { Hide, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 export const TeacherRegister = () => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
     const daysInMonth = month => new Date(2021, month, 0).getDate();
     const [name, setName] = useState('');
     const [lastName, setlastName] = useState('');
@@ -36,9 +48,17 @@ export const TeacherRegister = () => {
                 password: password,
                 phoneNumber: phNo
             }).then(res => {
-                alert("Register Successfull")
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Successfully Registered',
+                    text: 'Please Wait for Admin\'s Approval'
+                })
             }).catch(error => {
-                alert('Register Failure')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registration Failed',
+                    text: 'Please Check the Data'
+                })
             })
         }
     }

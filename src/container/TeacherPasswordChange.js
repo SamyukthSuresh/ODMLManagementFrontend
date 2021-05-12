@@ -20,8 +20,21 @@ import {
 } from 'grommet';
 import { Hide, View, User, StatusWarning, StatusGood, FormClose } from 'grommet-icons';
 import passImage from '../assets/teacherpass.svg'
+import LogOut from './LogOut';
 import { grommet } from 'grommet/themes';
+import Swal from 'sweetalert2'
 const TeacherPasswordChange = () => {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
     const history = useHistory();
     const [password, setPassword] = useState("")
     const [newpass, setPass] = useState('')
@@ -29,13 +42,10 @@ const TeacherPasswordChange = () => {
     const [reveal, setReveal] = useState(false);
     const [open, setOpen] = useState(false);
     const [otp, setOtp] = useState();
-    const [notifyopen, setNotifyOpen] = useState(false);
-    const [message, setMessage] = useState("")
-    const [msgstatus, setMsgStatus] = useState("status-ok")
-    const onClose = () => setNotifyOpen(false);
     const items = [
-        { label: 'Dashboard', href: '/teacherdashboard' },
-        { label: 'Password Change', href: '/teacherchangepassword' },
+        { label: 'Dashboard', href: '/teacherdashboard', value: 0 },
+        { label: 'Password Change', href: '/teacherchangepassword', value: 1 },
+        { label: 'Button', href: '#', value: 2 },
     ];
     const onSubmitPass = () => {
         if (email && password) {
@@ -48,9 +58,11 @@ const TeacherPasswordChange = () => {
                 setEmail('')
                 setPassword('')
             }).catch(error => {
-                setMessage("Password Change Unsuccessful")
-                setNotifyOpen(true)
-                setMsgStatus("status-critical")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please Verify the Credentials',
+                })
             })
         }
     }
@@ -62,13 +74,15 @@ const TeacherPasswordChange = () => {
                 password: newpass,
                 otp: otp
             }).then(res => {
-                setMessage("Password Change Successful")
-                setNotifyOpen(true)
-                setMsgStatus("status-ok")
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Password changed'
+                })
             }).catch(error => {
-                setMessage("Password Change Unsuccessful")
-                setNotifyOpen(true)
-                setMsgStatus("status-critical")
+                Toast.fire({
+                    icon: 'error',
+                    title: 'OTP Wrong'
+                })
             })
         }
     }
@@ -83,7 +97,7 @@ const TeacherPasswordChange = () => {
                 </Box>
                 <Nav direction="row">
                     {items.map(item => (
-                        <Anchor href={item.href} label={item.label} key={item.label} />
+                        item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/teachersignin'} />
                     ))}
                 </Nav>
             </Header>
@@ -126,7 +140,7 @@ const TeacherPasswordChange = () => {
                     <Layer position="center">
                         <Box pad="medium" gap="small" width="medium">
                             <Heading level={3} margin="none">
-                                EMAIL OTP VERIFICATION
+                                MOBILE OTP VERIFICATION
                             </Heading>
                             <Text>Enter the OTP</Text>
                             <TextInput
@@ -164,33 +178,6 @@ const TeacherPasswordChange = () => {
                         </Box>
                     </Layer>
                 ) : null}
-                {notifyopen && <Layer
-                    position="bottom"
-                    modal={false}
-                    margin={{ vertical: 'medium', horizontal: 'small' }}
-                    onEsc={onClose}
-                    responsive={false}
-                    plain
-                >
-                    <Box
-                        align="center"
-                        direction="row"
-                        gap="small"
-                        justify="between"
-                        round="medium"
-                        elevation="medium"
-                        pad={{ vertical: 'xsmall', horizontal: 'small' }}
-                        background={msgstatus}
-                    >
-                        <Box align="center" direction="row" gap="xsmall">
-                            {msgstatus === "status-ok" ? <StatusGood /> : <StatusWarning />}
-                            <Text>
-                                {message}
-                            </Text>
-                        </Box>
-                        <Button icon={<FormClose />} onClick={onClose} plain />
-                    </Box>
-                </Layer>}
             </Box>
         </Grommet>
     );

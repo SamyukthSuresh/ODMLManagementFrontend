@@ -15,6 +15,7 @@ import {
 import { CheckboxSelected, Close, FormClose, Info, StatusGood, StatusWarning, User, Validate, Search } from 'grommet-icons';
 import { Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
+import LogOut from './LogOut';
 const TeacherDashboard = () => {
     const [count, changeCount] = useState(0)
     const [search, setSearch] = useState("");
@@ -78,8 +79,9 @@ const TeacherDashboard = () => {
     const [open, setOpen] = useState(true);
     const onClose = () => setOpen(undefined);
     const items = [
-        { label: 'Dashboard', href: '/teacherdashboard' },
-        { label: 'Password Change', href: '/teacherchangepassword' },
+        { label: 'Dashboard', href: '/teacherdashboard', value: 0 },
+        { label: 'Password Change', href: '/teacherchangepassword', value: 1 },
+        { label: 'Button', href: '#', value: 2 },
     ];
     const gravatarSrc =
         '//s.gravatar.com/avatar/b7fb138d53ba0f573212ccce38a7c43b?s=80';
@@ -95,7 +97,7 @@ const TeacherDashboard = () => {
                 </Box>
                 <Nav direction="row">
                     {items.map(item => (
-                        <Anchor href={item.href} label={item.label} key={item.label} />
+                        item.value != 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/teachersignin'} />
                     ))}
                 </Nav>
             </Header>

@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import {
     Box,
@@ -17,20 +17,34 @@ import {
     Select
 } from 'grommet';
 import underConstruction from '../assets/error.svg'
-
+import Swal from 'sweetalert2'
 import { FormClose, StatusGood, User } from 'grommet-icons';
 
 import { Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
+import LogOut from './LogOut';
 const StudentDashboard = () => {
+    const specialToast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
     const daysInMonth = month => new Date(2021, month, 0).getDate();
     const [open, setOpen] = useState(true);
     const [dos, setDos] = useState('');
     const [doe, setDoe] = useState('');
-    const [branch, setBranch] = useState();
+    const [branch, setBranch] = useState(localStorage.getItem('suserid').substring(8, 11));
     const [tuserid, settuserid] = useState(null);
-    const [haveAlias, setHaveAlias] = useState();
+    const [haveAlias, setHaveAlias] = useState(false);
     const [teachers, setTeachers] = useState([{ tuserid: "Choose" }]);
+    const [count, setCount] = useState(0);
+    useEffect(() => { getTeacherList(branch) }, [count]);
     const getTeacherList = (dept) => {
         setBranch(dept)
         axios.get('http://127.0.0.1:3001/teachdept/' + dept).then(res => {
@@ -43,19 +57,60 @@ const StudentDashboard = () => {
             alert("Unable To Fetch Teachers")
         })
     }
+    const checkCurrDate = (dos, doe, alias) => {
+        var today = new Date();
+        var newDos = new Date(dos)
+        var newDoe = new Date(doe)
+        if (alias && ((today < newDos && today > newDoe) || (today > newDoe && today < newDos))) {
+            return false
+        }
+        else if (!alias && newDos < today) {
+            return false
+        }
+        else if (newDos > newDoe) {
+            return false
+        }
+        return true
+    }
     const onSubmitLeaveRecord = (value) => {
-        if (value && tuserid != null) {
-            axios.post('http://127.0.0.1:3001/leaverequest', { suserid: localStorage.getItem("suserid"), tuserid: value.tuserid, dos: value.dos, doe: value.doe, reason: value.reason, cert: value.alias ? value.alias : 'NA', branch: value.branch }).then(res => {
-                console.log(res.data)
+        let res = checkCurrDate(dos, doe, haveAlias)
+        if (res == false) {
+            specialToast.fire({
+                icon: 'error',
+                title: 'Invalid Dates',
+            })
+        }
+        if (res && value && tuserid != null && tuserid != "Choose" && branch) {
+            axios.post('http://127.0.0.1:3001/leaverequest', { suserid: localStorage.getItem("suserid"), tuserid: value.tuserid.split('-')[0].trim(), dos: value.dos, doe: value.doe, reason: value.reason, cert: value.alias ? value.alias : 'NA', branch: localStorage.getItem('suserid').substring(8, 11) }).then(res => {
+                if (res.data.status == "Redundant copies of Leave Records") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Unable to Submit your request',
+                        text: res.data.status,
+                        footer: 'Verify the Form Data'
+                    })
+                }
+                else {
+                    specialToast.fire({
+                        icon: 'success',
+                        title: 'Request Registered',
+                    })
+                }
             }).catch(error => {
-                alert("Unable To Submit Request")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Unable to Submit your request',
+                    footer: 'Verify the Form Data'
+                })
             })
         }
     }
     const onClose = () => setOpen(undefined);
     const items = [
-        { label: 'Dashboard', href: '/studentDashboard' },
-        { label: 'Past Application', href: '/studentpastapplication' },
+        { label: 'Dashboard', href: '/studentDashboard', value: 0 },
+        { label: 'Past Application', href: '/studentpastapplication', value: 1 },
+        { label: 'Button', href: '#', value: 2 },
     ];
     return (
         <Grommet full theme={grommet}>
@@ -67,31 +122,27 @@ const StudentDashboard = () => {
                     </Anchor>
                 </Box>
                 <Nav direction="row">
-                    {items.map(item => (
-                        <Anchor href={item.href} label={item.label} key={item.label} />
+                    {items.map((item) => (
+                        item.value !== 2 ?
+                            <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/signin'} />
                     ))}
                 </Nav>
             </Header>
             <Box fill align="center" justify="center">
-                <Box width="medium">
+                <Box width="medium" >
                     <Form
                         validate="blur"
                         onSubmit={({ value }) => onSubmitLeaveRecord(value)}
+                        onReset={() => {
+                            setDoe("")
+                            setDos("")
+                            setHaveAlias(false)
+                        }}
                     >
-                        <FormField label="Branch" name="branch" required>
-                            <Select
-                                options={['CSE', 'ECE', 'EEE', 'EIE', 'MEE', 'AEE', 'CHE', 'PHY', "Choose"]}
-                                value={branch}
-                                defaultValue={"Choose"}
-                                disabled={["Choose"]}
-                                onChange={({ option }) => getTeacherList(option)}
-                                name="branch"
-                            />
-                        </FormField>
                         <FormField label="TUserID" name="tuserid" required>
                             <Select
                                 options={teachers.map(item => {
-                                    return item.tuserid
+                                    return `${item.tuserid} - ${item.firstname} ${item.lastname}`
                                 })}
                                 value={tuserid}
                                 defaultValue={"Choose"}
