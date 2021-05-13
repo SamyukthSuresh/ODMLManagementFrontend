@@ -13,14 +13,16 @@ import {
     Form,
     CheckBox,
     MaskedInput,
-    Select
+    Select,
+    Layer
 } from 'grommet';
 import Swal from 'sweetalert2'
 import { FormClose, StatusGood, User } from 'grommet-icons';
-import { Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
 const StudentDashboard = () => {
+    const urlLeave = 'http://127.0.0.1:3001/leaverequest';
+    const urlTeacher = 'http://127.0.0.1:3001/teachdept/'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -43,7 +45,7 @@ const StudentDashboard = () => {
     useEffect(() => { getTeacherList(branch) });
     const getTeacherList = (dept) => {
         setBranch(dept)
-        axios.get('http://127.0.0.1:3001/teachdept/' + dept).then(res => {
+        axios.get(urlTeacher + dept).then(res => {
             if (res.data !== 'NA') { setTeachers(res.data) }
             else {
                 setTeachers([{ tuserid: "Choose" }])
@@ -56,14 +58,14 @@ const StudentDashboard = () => {
             })
         })
     }
-    const checkCurrDate = (dos, doe, alias) => {
+    const checkCurrDate = (dosFunc, doeFunc, aliasFunc) => {
         var today = new Date();
-        var newDos = new Date(dos)
-        var newDoe = new Date(doe)
-        if (alias && ((today < newDos && today > newDoe) || (today > newDoe && today < newDos))) {
+        var newDos = new Date(dosFunc)
+        var newDoe = new Date(doeFunc)
+        if (aliasFunc && ((today < newDos && today > newDoe) || (today > newDoe && today < newDos))) {
             return false
         }
-        else if (!alias && newDos < today) {
+        else if (!aliasFunc && newDos < today) {
             return false
         }
         else if (newDos > newDoe) {
@@ -80,8 +82,8 @@ const StudentDashboard = () => {
             })
         }
         if (res && value && tuserid !== null && tuserid !== "Choose" && branch) {
-            axios.post('http://127.0.0.1:3001/leaverequest', { suserid: localStorage.getItem("suserid"), tuserid: value.tuserid.split('-')[0].trim(), dos: value.dos, doe: value.doe, reason: value.reason, cert: value.alias ? value.alias : 'NA', branch: localStorage.getItem('suserid').substring(8, 11) }).then(res => {
-                if (res.data.status === "Redundant copies of Leave Records") {
+            axios.post(urlLeave, { suserid: localStorage.getItem("suserid"), tuserid: value.tuserid.split('-')[0].trim(), dos: value.dos, doe: value.doe, reason: value.reason, cert: value.alias ? value.alias : 'NA', branch: localStorage.getItem('suserid').substring(8, 11) }).then(response => {
+                if (response.data.status === "Redundant copies of Leave Records") {
                     Swal.fire({
                         icon: 'error',
                         title: 'Unable to Submit your request',
@@ -117,7 +119,7 @@ const StudentDashboard = () => {
                 <Box direction="row" align="center" gap="small">
                     <User />
                     <Anchor color="white">
-                        Welcome {localStorage.getItem('suserid')}
+                        Welcome {localStorage.getItem('firstnameStudent')}
                     </Anchor>
                 </Box>
                 <Nav direction="row">

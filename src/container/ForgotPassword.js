@@ -12,6 +12,7 @@ import Swal from 'sweetalert2'
 import passwordImage from '../assets/password.svg'
 import { grommet } from 'grommet/themes';
 const ForgotPassword = () => {
+    const urlPass = 'http://127.0.0.1:3001/requestpassword';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -28,7 +29,7 @@ const ForgotPassword = () => {
     const options = ['student', 'teacher']
     const onSubmitForgotPassword = () => {
         if (email) {
-            axios.post('http://127.0.0.1:3001/requestpassword', { email: email, id: id })
+            axios.post(urlPass, { email: email, id: id })
                 .then(res => {
                     Toast.fire({
                         icon: 'success',

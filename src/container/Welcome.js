@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Book, Storage, Group } from 'grommet-icons';
-import { Carousel } from 'grommet';
 import {
     Box,
     Card,
@@ -10,7 +9,8 @@ import {
     Grid,
     Grommet,
     Text,
-    Image
+    Image,
+    Carousel
 } from 'grommet';
 
 import carousal_1 from '../assets/carousal_1.jpg'

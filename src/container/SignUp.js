@@ -18,6 +18,8 @@ import {
 import { Hide, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 export const SignUp = () => {
+    const urlRegister = 'http://127.0.0.1:3001/registerstudent';
+    const urlVerify = 'http://127.0.0.1:3001/verifystudent'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -44,7 +46,7 @@ export const SignUp = () => {
     const [open, setOpen] = React.useState(false);
     const [otp, setOtp] = useState();
     const onSubmitSignUp = () => {
-        let res = checkBranch(rollNo, branch)
+        let res = checkBranch()
         if (res === false) {
             Swal.fire({
                 icon: 'error',
@@ -53,11 +55,11 @@ export const SignUp = () => {
             })
         }
         if (res && name && lastName && email && dob && yoc && branch && section && password) {
-            axios.post('http://127.0.0.1:3001/registerstudent', {
+            axios.post(urlRegister, {
                 suserid: rollNo,
                 firstname: name,
                 email: email,
-            }).then(res => {
+            }).then(response => {
                 setOpen(true)
             }).catch(error => {
                 Swal.fire({
@@ -73,14 +75,12 @@ export const SignUp = () => {
         if (rollNo.substring(8, 11) === branch) {
             return true
         }
-        else {
-            return false
-        }
+        return false
     }
     const onOTPSubmit = () => {
         setOpen(false)
         if (name && lastName && email && dob && yoc && branch && section && password && otp) {
-            axios.post('http://127.0.0.1:3001/verifystudent', {
+            axios.post(urlVerify, {
                 suserid: rollNo,
                 lastname: lastName,
                 firstname: name,

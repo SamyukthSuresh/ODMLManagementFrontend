@@ -10,13 +10,16 @@ import {
     Header, Nav,
     Anchor, Form,
     FormField, TextInput,
-    TextArea
+    TextArea, Layer
 } from 'grommet';
 import { FormClose, Info, StatusGood, User, Search } from 'grommet-icons';
-import { Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
 const TeacherDashboard = () => {
+    const urlTeacherLeave = 'http://127.0.0.1:3001/teacherleaverecords/';
+    const urlChairLeave = 'http://127.0.0.1:3001/chairleaverecords/';
+    const urlDecision = 'http://127.0.0.1:3001/decisionteacher';
+    const urlNotify = 'http://127.0.0.1:3001/notifystudent';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -31,7 +34,7 @@ const TeacherDashboard = () => {
     const [count, changeCount] = useState(0)
     const [search, setSearch] = useState("");
     useEffect(() => {
-        (localStorage.getItem("chairperson") !== 'Yes') ? axios.get('http://127.0.0.1:3001/teacherleaverecords/' + localStorage.getItem("tuserid"))
+        (localStorage.getItem("chairperson") !== 'Yes') ? axios.get(urlTeacherLeave + localStorage.getItem("tuserid"))
             .then(res => {
                 if (res.data !== "No Data Available as of Now") {
                     setStudent(res.data)
@@ -44,7 +47,7 @@ const TeacherDashboard = () => {
                     icon: "error",
                     title: 'Detail Fetch Failure'
                 })
-            }) : axios.get('http://127.0.0.1:3001/chairleaverecords/' + localStorage.getItem("tuserid").substring(2, 5))
+            }) : axios.get(urlChairLeave + localStorage.getItem("tuserid").substring(2, 5))
                 .then(res => {
                     if (res.data !== "No Data Available as of Now") {
                         setStudent(res.data)
@@ -65,11 +68,11 @@ const TeacherDashboard = () => {
                 decision = "Approved"
             }
         }
-        axios.post('http://127.0.0.1:3001/decisionteacher', { status: decision, suserid: suserid, dos: dos })
+        axios.post(urlDecision, { status: decision, suserid: suserid, dos: dos })
             .then(res => {
                 if (decision === "Approved" || decision === "Rejected") {
-                    axios.post('http://127.0.0.1:3001/notifystudent', { status: decision, suserid: suserid, dos: dos, doe: doe, reason: reason })
-                        .then(res => {
+                    axios.post(urlNotify, { status: decision, suserid: suserid, dos: dos, doe: doe, reason: reason })
+                        .then(response => {
                             Toast.fire({
                                 icon: "success",
                                 title: 'SMS Sent'
@@ -111,7 +114,7 @@ const TeacherDashboard = () => {
                 <Box direction="row" align="center" gap="small">
                     <User />
                     <Anchor color="white" href="#">
-                        Welcome {'10CSE345'}
+                        Welcome {localStorage.getItem('firstname')}
                     </Anchor>
                     <TextInput icon={<Search />} placeholder="search ..." onChange={(event) => setSearch(event.target.value)} />
                 </Box>

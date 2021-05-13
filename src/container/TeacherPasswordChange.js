@@ -23,6 +23,8 @@ import LogOut from './LogOut';
 import { grommet } from 'grommet/themes';
 import Swal from 'sweetalert2'
 const TeacherPasswordChange = () => {
+    const urlChange = 'http://127.0.0.1:3001/changepassword';
+    const urlVerify = 'http://127.0.0.1:3001/verifyteacherotp';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -47,7 +49,7 @@ const TeacherPasswordChange = () => {
     ];
     const onSubmitPass = () => {
         if (email && password) {
-            axios.post('http://127.0.0.1:3001/changepassword', {
+            axios.post(urlChange, {
                 tuserid: localStorage.getItem('tuserid'),
                 password: password,
                 email: email,
@@ -67,7 +69,7 @@ const TeacherPasswordChange = () => {
     const onOTPSubmit = () => {
         setOpen(false)
         if (newpass && otp) {
-            axios.post('http://127.0.0.1:3001/verifyteacherotp', {
+            axios.post(urlVerify, {
                 tuserid: localStorage.getItem('tuserid'),
                 password: newpass,
                 otp: otp
