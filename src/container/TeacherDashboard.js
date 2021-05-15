@@ -16,10 +16,10 @@ import { FormClose, Info, StatusGood, User, Search } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
 const TeacherDashboard = () => {
-    const urlTeacherLeave = 'http://127.0.0.1:3001/teacherleaverecords/';
-    const urlChairLeave = 'http://127.0.0.1:3001/chairleaverecords/';
-    const urlDecision = 'http://127.0.0.1:3001/decisionteacher';
-    const urlNotify = 'http://127.0.0.1:3001/notifystudent';
+    const urlTeacherLeave = 'http://3.80.186.62:3001/teacherleaverecords/';
+    const urlChairLeave = 'http://3.80.186.62:3001/chairleaverecords/';
+    const urlDecision = 'http://3.80.186.62:3001/decisionteacher';
+    const urlNotify = 'http://3.80.186.62:3001/notifystudent';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

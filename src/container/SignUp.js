@@ -18,8 +18,8 @@ import {
 import { Hide, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 export const SignUp = () => {
-    const urlRegister = 'http://127.0.0.1:3001/registerstudent';
-    const urlVerify = 'http://127.0.0.1:3001/verifystudent'
+    const urlRegister = 'http://3.80.186.62:3001/registerstudent';
+    const urlVerify = 'http://3.80.186.62:3001/verifystudent'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
