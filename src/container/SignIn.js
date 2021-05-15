@@ -16,6 +16,9 @@ import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/signIn.svg'
 import { grommet } from 'grommet/themes';
 const SignIn = () => {
+    const urlSignIn = 'http://127.0.0.1:3001/signinstudent';
+    const urlOtp = 'http://127.0.0.1:3001/getotpsignin';
+    const urlVerifyOtp = 'http://127.0.0.1:3001/verifysigninotp'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -37,10 +40,12 @@ const SignIn = () => {
     const onSubmitSignIn = () => {
         console.log(username, password)
         if (username && password) {
-            axios.post('http://127.0.0.1:3001/signinstudent', { suserid: username, password: password })
+            axios.post(urlSignIn, { suserid: username, password: password })
                 .then(res => {
                     if ((res.data.status).length > 0) {
                         localStorage.setItem("suserid", res.data.suserid)
+                        localStorage.setItem('firstnameStudent', res.data.firstname)
+                        localStorage.setItem('lastnameStudent', res.data.lastname)
                         history.replace('/studentDashboard')
                     }
                 }).catch(error => {
@@ -55,9 +60,11 @@ const SignIn = () => {
     }
     const onSendOTP = () => {
         if (roll) {
-            axios.post('http://127.0.0.1:3001/getotpsignin', { userid: roll })
+            axios.post(urlOtp, { userid: roll })
                 .then(res => {
                     if ((res.data)) {
+                        localStorage.setItem('firstnameStudent', res.data.firstname)
+                        localStorage.setItem('lastnameStudent', res.data.lastname)
                         setGet(false)
                     }
                 }).catch(error => {
@@ -71,7 +78,7 @@ const SignIn = () => {
 
     const onSubmitOTP = () => {
         if (otp) {
-            axios.post('http://127.0.0.1:3001/verifysigninotp', { otp: otp })
+            axios.post(urlVerifyOtp, { otp: otp })
                 .then(res => {
                     if ((res.data)) {
                         localStorage.setItem("suserid", roll)
@@ -143,7 +150,7 @@ const SignIn = () => {
                             </Box>
 
                             <Box direction="row" justify="between" margin={{ top: 'medium' }}>
-                                <Button hoverIndicator="light-1" onClick={() => { }}>
+                                <Button hoverIndicator="light-1">
                                     <Box data-testid="button3" pad="small" direction="row" align="center" gap="small">
                                         <Text color="purple" onClick={() => { history.push('/forgotpassword') }} >Forgot password</Text>
                                     </Box>
@@ -151,7 +158,7 @@ const SignIn = () => {
                                 <Button data-testid="button" active={true} onClick={onSubmitSignIn} type="submit" label="Log In" primary />
                             </Box>
                             <Box data-testid="button2" pad="medium" justify="center" align="center" gap="medium">
-                                <Button hoverIndicator="light-1" onClick={() => { }}>
+                                <Button hoverIndicator="light-1">
                                     <Text color="purple" onClick={() => { history.push('/signup') }} >Not Signed Up?</Text>
                                 </Button>
                             </Box>
@@ -194,7 +201,7 @@ const SignIn = () => {
                                 </Box>
 
                                 <Box direction="row" justify="between" margin={{ top: 'medium' }}>
-                                    <Button hoverIndicator="light-1" onClick={() => { }}>
+                                    <Button hoverIndicator="light-1">
                                         <Box data-testid="button3" pad="small" direction="row" align="center" gap="small">
                                             <Text color="purple" onClick={() => { setGet(true) }} >Cancel</Text>
                                         </Box>

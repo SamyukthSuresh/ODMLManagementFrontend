@@ -1,8 +1,7 @@
 import React from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import { Route } from 'react-router-dom';
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Welcome from './Welcome';
 import StudentDashboard from './StudentDashboard';
 import AdminTeacherVerify from './AdminTeacherVerify';
@@ -43,13 +42,3 @@ function Routes() {
 }
 
 export default Routes;
-/*
-<Tabs style={{ paddingTop: "1%" }}>
-        <Tab title="Log In" background="accent-2">
-          <Box><SignIn /></Box>
-        </Tab>
-        <Tab title="Sign Up">
-          <Box><SignUp /></Box>
-        </Tab>
-      </Tabs>
-*/

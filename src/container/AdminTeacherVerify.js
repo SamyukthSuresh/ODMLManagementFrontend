@@ -1,13 +1,13 @@
 import { React, useState } from 'react';
 import axios from 'axios';
-import { Box, Grommet, Text, Button, Image, Header, Nav, Anchor } from 'grommet';
+import { Box, Grommet, Text, Button, Image, Header, Nav, Anchor, Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
-import { Update, Checkmark, Close, StatusWarning, FormClose } from 'grommet-icons'
+import { Update, Checkmark, Close, StatusWarning, FormClose, StatusGood, User } from 'grommet-icons'
 import empty from '../assets/empty.svg'
-import { StatusGood, User } from 'grommet-icons';
-import { Layer } from 'grommet';
 import LogOut from './LogOut';
 export const AdminTeacherVerify = () => {
+    const urlForms = 'http://127.0.0.1:3001/forms';
+    const urlDecision = 'http://127.0.0.1:3001/decision';
     const [open, setOpen] = useState(true);
     const [message, setMessage] = useState("Succcesfully Signed In To Admin Portal")
     const [msgstatus, setMsgStatus] = useState("status-ok")
@@ -18,7 +18,7 @@ export const AdminTeacherVerify = () => {
         { label: 'Button', href: '#', value: 2 },
     ];
     const getDetails = () => {
-        axios.get('http://127.0.0.1:3001/forms')
+        axios.get(urlForms)
             .then(res => {
                 if (res.data.length > 0) { setTeacher(res.data) }
                 else {
@@ -30,7 +30,7 @@ export const AdminTeacherVerify = () => {
             })
     }
     const verifyTeacher = (userid, status) => {
-        axios.post('http://127.0.0.1:3001/decision', { tuserid: userid, status: status })
+        axios.post(urlDecision, { tuserid: userid, status: status })
             .then(res => {
                 if (status === "APPROVED") {
                     setMessage("Approved User Registration")

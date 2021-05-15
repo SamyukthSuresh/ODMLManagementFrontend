@@ -13,12 +13,13 @@ import signImage from '../assets/adminSignIn.svg'
 import { grommet } from 'grommet/themes';
 import Swal from 'sweetalert2'
 const AdminSignIn = () => {
+    const urlSignIn = 'http://127.0.0.1:3001/signinadmin';
     const history = useHistory();
     const [password, setPassword] = useState("")
     const [reveal, setReveal] = useState(false);
     const onSubmitSignIn = () => {
         if (password) {
-            axios.post('http://127.0.0.1:3001/signinadmin', { password: password })
+            axios.post(urlSignIn, { password: password })
                 .then(res => {
                     history.replace('/adminteacherverify')
                 }).catch(error => {

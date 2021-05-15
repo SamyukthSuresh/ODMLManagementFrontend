@@ -7,6 +7,7 @@ import passImage from '../assets/lock.svg'
 import LogOut from './LogOut';
 import Swal from 'sweetalert2'
 export const RevokeAccess = () => {
+    const urlRevoke = 'http://127.0.0.1:3001/revoke';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -28,7 +29,7 @@ export const RevokeAccess = () => {
     ];
     const revoke = () => {
         if (id && userid) {
-            axios.post('http://127.0.0.1:3001/revoke', { id: id, userid: userid })
+            axios.post(urlRevoke, { id: id, userid: userid })
                 .then(res => {
                     Toast.fire({
                         icon: 'success',

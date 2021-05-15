@@ -16,6 +16,9 @@ import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/teacher.svg'
 import { grommet } from 'grommet/themes';
 const TeacherSignIn = () => {
+    const urlSignIn = 'http://127.0.0.1:3001/signinteacher';
+    const urlGetOtp = 'http://127.0.0.1:3001/getotpsignin';
+    const urlVerifyOtp = 'http://127.0.0.1:3001/verifysigninotp'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -36,11 +39,13 @@ const TeacherSignIn = () => {
     const [roll, setRoll] = useState()
     const onSubmitSignIn = () => {
         if (username && password) {
-            axios.post('http://127.0.0.1:3001/signinteacher', { tuserid: username, password: password })
+            axios.post(urlSignIn, { tuserid: username, password: password })
                 .then(res => {
                     if ((res.data.status).length > 0) {
                         localStorage.setItem("tuserid", res.data.tuserid)
                         localStorage.setItem("chairperson", res.data.chairperson)
+                        localStorage.setItem('firstname', res.data.firstname)
+                        localStorage.setItem('lastname', res.data.lastname)
                         history.replace('/teacherdashboard')
                     }
                 }).catch(error => {
@@ -55,12 +60,14 @@ const TeacherSignIn = () => {
     }
     const onSendOTP = () => {
         if (roll) {
-            axios.post('http://127.0.0.1:3001/getotpsignin', { userid: roll })
+            axios.post(urlGetOtp, { userid: roll })
                 .then(res => {
                     if ((res.data)) {
                         setGet(false)
                         localStorage.setItem("tuserid", roll)
-                        localStorage.setItem("chairperson", res.data)
+                        localStorage.setItem("chairperson", res.data.chair)
+                        localStorage.setItem('firstname', res.data.firstname)
+                        localStorage.setItem('lastname', res.data.lastname)
                     }
                 }).catch(error => {
                     Toast.fire({
@@ -73,7 +80,7 @@ const TeacherSignIn = () => {
 
     const onSubmitOTP = () => {
         if (otp) {
-            axios.post('http://127.0.0.1:3001/verifysigninotp', { otp: otp })
+            axios.post(urlVerifyOtp, { otp: otp })
                 .then(res => {
                     if ((res.data)) {
                         history.replace('/teacherdashboard')
@@ -147,7 +154,7 @@ const TeacherSignIn = () => {
                                 <Button data-testid="button" active={true} onClick={onSubmitSignIn} type="submit" label="Log In" primary />
                             </Box>
                             <Box data-testid="button2" pad="medium" justify="center" align="center" gap="medium">
-                                <Button hoverIndicator="light-1" onClick={() => { }}>
+                                <Button hoverIndicator="light-1">
                                     <Text color="purple" onClick={() => { history.push('/forgotpassword') }} >Forgot Password</Text>
                                 </Button>
                             </Box>
@@ -190,7 +197,7 @@ const TeacherSignIn = () => {
                                 </Box>
 
                                 <Box direction="row" justify="between" margin={{ top: 'medium' }}>
-                                    <Button hoverIndicator="light-1" onClick={() => { }}>
+                                    <Button hoverIndicator="light-1">
                                         <Box data-testid="button3" pad="small" direction="row" align="center" gap="small">
                                             <Text color="purple" onClick={() => { setGet(true) }} >Cancel</Text>
                                         </Box>

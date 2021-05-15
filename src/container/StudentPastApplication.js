@@ -20,6 +20,8 @@ import '../Theme/StudentPastApplication.css'
 import LogOut from './LogOut';
 import { User, Search, Filter, Close } from 'grommet-icons';
 const StudentPastApplication = () => {
+    const urlPast = 'http://127.0.0.1:3001/leavestatus/';
+    const urlCancel = 'http://127.0.0.1:3001/cancelleaverequest';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -41,8 +43,8 @@ const StudentPastApplication = () => {
         { label: 'Past Application', href: '/studentpastapplication', value: 1 },
         { label: 'Button', href: '#', value: 2 },
     ];
-    useEffect((Toast) => {
-        axios.get('http://127.0.0.1:3001/leavestatus/' + localStorage.getItem("suserid"))
+    useEffect(() => {
+        axios.get(urlPast + localStorage.getItem("suserid"))
             .then(res => {
                 console.log(res.data)
                 if (res.data !== "No Data Available as of Now") {
@@ -60,10 +62,10 @@ const StudentPastApplication = () => {
                     title: 'Details Fetch Failure',
                 })
             })
-    }, [count]);
+    }, [count, Toast]);
 
     const cancelLeave = (value) => {
-        axios.delete('http://127.0.0.1:3001/cancelleaverequest', {
+        axios.delete(urlCancel, {
             headers: {
                 Authorization: null
             },
