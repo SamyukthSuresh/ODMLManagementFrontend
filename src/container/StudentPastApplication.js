@@ -20,8 +20,8 @@ import '../Theme/StudentPastApplication.css'
 import LogOut from './LogOut';
 import { User, Search, Filter, Close } from 'grommet-icons';
 const StudentPastApplication = () => {
-    const urlPast = 'http://3.80.186.62:3001/leavestatus/';
-    const urlCancel = 'http://3.80.186.62:3001/cancelleaverequest';
+    const urlPast = 'http://127.0.0.1:3001/leavestatus/';
+    const urlCancel = 'http://127.0.0.1:3001/cancelleaverequest';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

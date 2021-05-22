@@ -16,9 +16,9 @@ import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/signIn.svg'
 import { grommet } from 'grommet/themes';
 const SignIn = () => {
-    const urlSignIn = 'http://3.80.186.62:3001/signinstudent';
-    const urlOtp = 'http://3.80.186.62:3001/getotpsignin';
-    const urlVerifyOtp = 'http://3.80.186.62:3001/verifysigninotp'
+    const urlSignIn = 'http://127.0.0.1:3001/signinstudent';
+    const urlOtp = 'http://127.0.0.1:3001/getotpsignin';
+    const urlVerifyOtp = 'http://127.0.0.1:3001/verifysigninotp'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -97,7 +97,7 @@ const SignIn = () => {
     return (
         <Grommet full theme={grommet}>
             <Box pad="small" justify="start" align="start" >
-                <Button primary icon={<Home />} label="Go to Home" hoverIndicator="light-1" onClick={() => { history.replace('/') }} />
+                <Button primary icon={<Home />} id="HomeBtn" label="Go to Home" hoverIndicator="light-1" onClick={() => { history.replace('/') }} />
             </Box>
             <Box fill align="center" justify="center">
                 <Box height="small" width="large" style={{
@@ -155,7 +155,7 @@ const SignIn = () => {
                                         <Text color="purple" onClick={() => { history.push('/forgotpassword') }} >Forgot password</Text>
                                     </Box>
                                 </Button>
-                                <Button data-testid="button" active={true} onClick={onSubmitSignIn} type="submit" label="Log In" primary />
+                                <Button data-testid="button" active={true} onClick={onSubmitSignIn} type="submit" label="Log In" id="submitBtn" primary />
                             </Box>
                             <Box data-testid="button2" pad="medium" justify="center" align="center" gap="medium">
                                 <Button hoverIndicator="light-1">
@@ -164,7 +164,7 @@ const SignIn = () => {
                             </Box>
                         </Box>
                     </Tab>
-                    <Tab title="OTP">
+                    <Tab title="OTP" id="otpLogin">
                         {get ?
                             <div>
                                 <TextInput
@@ -177,7 +177,7 @@ const SignIn = () => {
                                     value={roll}
                                     onChange={(event) => setRoll(event.target.value)}
                                 />
-                                <Button style={{ marginTop: "7%" }} active={true} onClick={onSendOTP} type="submit" label="Get OTP" primary /></div> : <Box pad="small" width="medium">
+                                <Button style={{ marginTop: "7%" }} active={true} onClick={onSendOTP} type="submit" id="submitBtn" label="Get OTP" primary /></div> : <Box pad="small" width="medium">
                                 <Box
                                     width="medium"
                                     direction="row"
@@ -194,7 +194,7 @@ const SignIn = () => {
                                         value={otp}
                                         onChange={(event) => setOTP(event.target.value)}
                                     />
-                                    <Button
+                                    <Button 
                                         icon={reveal ? <View size="medium" /> : <Hide size="medium" />}
                                         onClick={() => setReveal(!reveal)}
                                     />
@@ -206,7 +206,7 @@ const SignIn = () => {
                                             <Text color="purple" onClick={() => { setGet(true) }} >Cancel</Text>
                                         </Box>
                                     </Button>
-                                    <Button data-testid="button" active={true} onClick={onSubmitOTP} type="submit" label="Submit OTP" primary />
+                                    <Button data-testid="button" id="submitOTP" active={true} onClick={onSubmitOTP} type="submit" label="Submit OTP" primary />
                                 </Box>
                             </Box>}
                     </Tab>

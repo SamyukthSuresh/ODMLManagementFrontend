@@ -50,18 +50,21 @@ const data = [
         title: 'Student Portal Login',
         message: 'Student Potal to Apply OD/ML',
         type: 'bar',
+        id: 'student'
     },
     {
         icon: <Storage size="large" />,
         title: 'Admin Portal Login',
         message: 'Admin Portal to Manage Records',
         type: 'line',
+        id: 'admin'
     },
     {
         icon: <Group size="large" />,
         title: 'Teacher Portal',
         message: 'Teacher Portal to Approve Student Records',
         type: 'point',
+        id: 'teacher'
     },
 ];
 
@@ -108,6 +111,7 @@ export const Welcome = () => {
                         <Card
                             style={{ marginTop: "-2%" }}
                             key={value.title}
+                            id={value.id}
                             onClick={() => { onClickRouteChange(value.title) }
                             }
                             background="dark-1"
