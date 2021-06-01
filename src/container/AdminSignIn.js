@@ -68,7 +68,7 @@ const AdminSignIn = () => {
                     </Box>
 
                     <Box direction="row" justify="center" margin={{ top: 'medium' }}>
-                        <Button data-testid="button" active={true} onClick={onSubmitSignIn} type="submit" label="Log In" primary />
+                        <Button data-testid="button" id="submitBtn" active={true} onClick={onSubmitSignIn} type="submit" label="Log In" primary />
                     </Box>
                 </Box>
             </Box>

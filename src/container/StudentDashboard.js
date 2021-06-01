@@ -109,8 +109,8 @@ const StudentDashboard = () => {
     }
     const onClose = () => setOpen(undefined);
     const items = [
-        { label: 'Dashboard', href: '/studentDashboard', value: 0 },
-        { label: 'Past Application', href: '/studentpastapplication', value: 1 },
+        { label: 'Dashboard', href: '/studentDashboard', value: 0, id:'dashboard' },
+        { label: 'Past Application', href: '/studentpastapplication', value: 1, id:'pastApplication' },
         { label: 'Button', href: '#', value: 2 },
     ];
     return (
@@ -125,7 +125,7 @@ const StudentDashboard = () => {
                 <Nav direction="row">
                     {items.map((item) => (
                         item.value !== 2 ?
-                            <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/signin'} />
+                            <Anchor id={item.id} href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/signin'} />
                     ))}
                 </Nav>
             </Header>
@@ -140,8 +140,8 @@ const StudentDashboard = () => {
                             setHaveAlias(false)
                         }}
                     >
-                        <FormField label="TUserID" name="tuserid" required>
-                            <Select
+                        <FormField label="TUserID" name="tuserid"  required>
+                            <Select 
                                 options={teachers.map(item => {
                                     return `${item.tuserid} - ${item.firstname} ${item.lastname}`
                                 })}
@@ -150,6 +150,7 @@ const StudentDashboard = () => {
                                 disabled={["Choose"]}
                                 onChange={({ option }) => settuserid(option)}
                                 name="tuserid"
+                                id="teacher__input"
                             />
                         </FormField>
                         <Box direction="row" justify="between">
@@ -241,8 +242,8 @@ const StudentDashboard = () => {
                             <TextInput name="reason" />
                         </FormField>
                         <Box direction="row" justify="between" margin={{ top: 'medium' }}>
-                            <Button type="reset" label="Reset" />
-                            <Button type="submit" label="Submit" primary />
+                            <Button type="reset" label="Reset" id="resetBtn"/>
+                            <Button type="submit" id="submitBtn" label="Submit" primary />
                         </Box>
                     </Form>
                 </Box>

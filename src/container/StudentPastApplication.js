@@ -19,6 +19,7 @@ import { grommet } from 'grommet/themes';
 import '../Theme/StudentPastApplication.css'
 import LogOut from './LogOut';
 import { User, Search, Filter, Close } from 'grommet-icons';
+var dateFormat = require('dateformat');
 const StudentPastApplication = () => {
     const urlPast = 'http://127.0.0.1:3001/leavestatus/';
     const urlCancel = 'http://127.0.0.1:3001/cancelleaverequest';
@@ -39,8 +40,8 @@ const StudentPastApplication = () => {
     const [filter, setFilter] = useState('Reason')
     const allOptions = ['Reason', 'Start Date']
     const items = [
-        { label: 'Dashboard', href: '/studentDashboard', value: 0 },
-        { label: 'Past Application', href: '/studentpastapplication', value: 1 },
+        { label: 'Dashboard', href: '/studentDashboard', value: 0 , id: 'dashboard' },
+        { label: 'Past Application', href: '/studentpastapplication', value: 1, id:'pastApplication' },
         { label: 'Button', href: '#', value: 2 },
     ];
     useEffect(() => {
@@ -65,11 +66,12 @@ const StudentPastApplication = () => {
     }, [count, Toast]);
 
     const cancelLeave = (value) => {
+        var day=dateFormat(new Date(value.dos), "mm/dd/yyyy");
         axios.delete(urlCancel, {
             headers: {
                 Authorization: null
             },
-            data: { suserid: localStorage.getItem("suserid"), dos: new Date(value.dos).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' }), reason: value.reason }
+            data: { suserid: localStorage.getItem("suserid"), dos: value.dos, reason: value.reason }
         }).then(res => {
             Toast.fire({
                 icon: 'success',
@@ -102,22 +104,22 @@ const StudentPastApplication = () => {
                 </Box>
                 <Nav direction="row">
                     {items.map(item => (
-                        item.value !== 2 ? <Anchor href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/signin'} />
+                        item.value !== 2 ? <Anchor id={item.id} href={item.href} label={item.label} key={item.label} /> : <LogOut route={'/signin'} />
                     ))}
                 </Nav>
             </Header>
             {student ?
                 student.filter(item => filter === "Reason" ? item.reason.toLowerCase().includes(search.toLowerCase()) : new Date(item.dos).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' }).includes(search)).map((item, key) => (
-                    <div class='fl w-third pa2'>
+                    <div class='leaveApp fl w-third pa2'>
                         <Card style={{ 'marginLeft': "6%" }} height="small" width="medium" background="light-1">
                             <CardBody pad="medium" background={item.approval !== 'Rejected' ? item.approval === "Approved" ? 'status-ok' : 'status-warning' : 'status-critical'}>
                                 <Text weight="bold">LEAVE ID:{key}</Text>
-                                <Text weight="bold">DOS: {new Date(item.dos).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' })}</Text>
-                                <Text weight="bold">DOE: {new Date(item.doe).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' })}</Text>
+                                <Text id="dos" weight="bold">DOS: {new Date(item.dos).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' })}</Text>
+                                <Text id="doe" weight="bold">DOE: {new Date(item.doe).toLocaleDateString("sq-AL", { year: 'numeric', day: '2-digit', month: '2-digit' })}</Text>
                                 <Text weight="bold">{item.reason}</Text>
                             </CardBody>
                             <CardFooter background="light-2" >
-                                <Button disabled={item.approval === "Approved" ? true : false} margin="small" style={{ 'marginLeft': "26%" }} label="Cancel Request" icon={<Close color="red" />} hoverIndicator plain={true} onClick={() => { cancelLeave(item) }} />
+                                <Button id="decideBtn" disabled={item.approval === "Approved" ? true : false} margin="small" style={{ 'marginLeft': "26%" }} label="Cancel Request" icon={<Close color="red" />} hoverIndicator plain={true} onClick={() => { cancelLeave(item) }} />
                             </CardFooter></Card>
                     </div>
                 )) : null}

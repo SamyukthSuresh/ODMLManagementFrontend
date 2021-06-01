@@ -151,7 +151,7 @@ const TeacherSignIn = () => {
 
                             <Box direction="row" justify="between" margin={{ top: 'medium' }}>
                                 <Text color="purple" onClick={() => { history.push('/teacherregister') }} >Not Signed Up?</Text>
-                                <Button data-testid="button" active={true} onClick={onSubmitSignIn} type="submit" label="Log In" primary />
+                                <Button data-testid="button" active={true} onClick={onSubmitSignIn} id="submitBtn" type="submit" label="Log In" primary />
                             </Box>
                             <Box data-testid="button2" pad="medium" justify="center" align="center" gap="medium">
                                 <Button hoverIndicator="light-1">
@@ -160,7 +160,7 @@ const TeacherSignIn = () => {
                             </Box>
                         </Box>
                     </Tab>
-                    <Tab title="OTP">
+                    <Tab title="OTP" id="otpLogin">
                         {get ?
                             <div>
                                 <TextInput
@@ -173,7 +173,7 @@ const TeacherSignIn = () => {
                                     value={roll}
                                     onChange={(event) => setRoll(event.target.value)}
                                 />
-                                <Button style={{ marginTop: "7%" }} active={true} onClick={onSendOTP} type="submit" label="Get OTP" primary /></div> : <Box pad="small" width="medium">
+                                <Button style={{ marginTop: "7%" }} active={true} onClick={onSendOTP} id="submitBtn" type="submit" label="Get OTP" primary /></div> : <Box pad="small" width="medium">
                                 <Box
                                     width="medium"
                                     direction="row"
@@ -202,7 +202,7 @@ const TeacherSignIn = () => {
                                             <Text color="purple" onClick={() => { setGet(true) }} >Cancel</Text>
                                         </Box>
                                     </Button>
-                                    <Button data-testid="button" active={true} onClick={onSubmitOTP} type="submit" label="Submit OTP" primary />
+                                    <Button data-testid="button" id="submitOTP" active={true} onClick={onSubmitOTP} type="submit" label="Submit OTP" primary />
                                 </Box>
                             </Box>}
                     </Tab>
