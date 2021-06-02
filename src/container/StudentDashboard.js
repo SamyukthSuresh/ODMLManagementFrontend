@@ -21,8 +21,8 @@ import { FormClose, StatusGood, User } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
 const StudentDashboard = () => {
-    const urlLeave = 'http://54.172.184.52:3001/leaverequest';
-    const urlTeacher = 'http://54.172.184.52:3001/teachdept/'
+    const urlLeave = 'http://18.234.218.254:3001/leaverequest';
+    const urlTeacher = 'http://18.234.218.254:3001/teachdept/'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

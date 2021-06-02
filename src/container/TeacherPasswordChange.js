@@ -23,8 +23,8 @@ import LogOut from './LogOut';
 import { grommet } from 'grommet/themes';
 import Swal from 'sweetalert2'
 const TeacherPasswordChange = () => {
-    const urlChange = 'http://54.172.184.52:3001/changepassword';
-    const urlVerify = 'http://54.172.184.52:3001/verifyteacherotp';
+    const urlChange = 'http://18.234.218.254:3001/changepassword';
+    const urlVerify = 'http://18.234.218.254:3001/verifyteacherotp';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

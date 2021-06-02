@@ -6,8 +6,8 @@ import { Update, Checkmark, Close, StatusWarning, FormClose, StatusGood, User } 
 import empty from '../assets/empty.svg'
 import LogOut from './LogOut';
 export const AdminTeacherVerify = () => {
-    const urlForms = 'http://54.172.184.52:3001/forms';
-    const urlDecision = 'http://54.172.184.52:3001/decision';
+    const urlForms = 'http://18.234.218.254:3001/forms';
+    const urlDecision = 'http://18.234.218.254:3001/decision';
     const [open, setOpen] = useState(true);
     const [message, setMessage] = useState("Succcesfully Signed In To Admin Portal")
     const [msgstatus, setMsgStatus] = useState("status-ok")
