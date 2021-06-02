@@ -60,7 +60,18 @@ export const SignUp = () => {
                 firstname: name,
                 email: email,
             }).then(response => {
-                setOpen(true)
+                console.log(response)
+                if(response.status === 400)
+                {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Check your Data'
+                    })
+                    setOpen(false)
+                }
+                else
+                    setOpen(true)
             }).catch(error => {
                 Swal.fire({
                     icon: 'error',
@@ -184,7 +195,7 @@ export const SignUp = () => {
                                 />
                             </FormField>
                             <Box direction="row" justify="between" margin={{ top: 'large' }}>
-                                <Button data-testid="button" type="submit" label="Register" primary />
+                                <Button data-testid="button" id="registerBtn" type="submit" label="Register" primary />
                             </Box>
                         </Form>
                     </Box>
@@ -197,6 +208,7 @@ export const SignUp = () => {
                         </Form>
                         <FormField label="Date of Birth" name="dob">
                             <MaskedInput
+                                id="dob"
                                 mask={[
                                     {
                                         length: 4,
@@ -231,6 +243,7 @@ export const SignUp = () => {
                         </FormField>
                         <FormField label="Year of Graduation" name="yoc">
                             <MaskedInput
+                                id="yog"
                                 mask={[
                                     {
                                         length: 4,
@@ -245,7 +258,7 @@ export const SignUp = () => {
                         </FormField>
                         <Box direction="row" justify="between" margin={{ top: 'medium' }} gap="large">
                             <FormField label="Branch" name="branch" required>
-                                <Select
+                                <Select id="branch"
                                     options={['CSE', 'ECE', 'EEE', 'EIE', 'MEE', 'AEE', 'CHE', 'PHY', "Choose"]}
                                     value={branch}
                                     defaultValue={"Choose"}
@@ -254,7 +267,7 @@ export const SignUp = () => {
                                 />
                             </FormField>
                             <FormField label="Section" name="branch" >
-                                <Select
+                                <Select id="section"
                                     options={['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'Choose']}
                                     value={section}
                                     defaultValue={"Choose"}
@@ -266,6 +279,7 @@ export const SignUp = () => {
                         <FormField label="Preferred Password" name="passsword">
                             <Box direction="row" justify="between" margin={{ top: 'xxsmall' }}>
                                 <TextInput
+                                    id="password"
                                     plain
                                     type={reveal ? 'text' : 'password'}
                                     value={password}
@@ -300,7 +314,7 @@ export const SignUp = () => {
                                 justify="end"
                                 pad={{ top: 'medium', bottom: 'small' }}
                             >
-                                <Button label="Submit" onClick={onOTPSubmit} color="dark-3" />
+                                <Button label="Submit" id="otpSubmit" onClick={onOTPSubmit} color="dark-3" />
                                 <Button
                                     label={
                                         <Text color="white">

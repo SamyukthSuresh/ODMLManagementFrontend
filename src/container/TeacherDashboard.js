@@ -131,10 +131,10 @@ const TeacherDashboard = () => {
             <Box>
                 {student ? student.filter(item => item.suserid.toLowerCase().includes(search.toLowerCase())).map((item) => (
                     <Accordion>
-                        <AccordionPanel key={item} label={item.suserid}>
-                            <Box align="center" pad="large">
+                        <AccordionPanel key={item} label={item.suserid} id="studentNo">
+                            <Box align="center" pad="large" id="application">
                                 <Form>
-                                    <Box border gap="medium" pad="large" width="medium">
+                                    <Box border gap="medium" pad="large" width="medium" id="leaveRequest">
                                         {localStorage.getItem('chairperson') === 'Yes' ? <FormField
                                             htmlFor="info-id"
                                             name="info-demo"
@@ -181,6 +181,7 @@ const TeacherDashboard = () => {
                                             label="Reason"
                                         >
                                             <TextArea
+                                                id="reason"
                                                 value={item.reason}
                                             />
                                         </FormField>
@@ -195,8 +196,8 @@ const TeacherDashboard = () => {
                                         </FormField> : null}
 
                                         <Box direction="row" justify="between">
-                                            <Button label="Approve" style={{ backgroundColor: '#4BB543' }} onClick={() => decisionSubmit("Verified", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)} />
-                                            <Button label="Reject" style={{ backgroundColor: '#FF6347' }} onClick={() => decisionSubmit("Rejected", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)} />
+                                            <Button id="approveBtn" label="Approve" style={{ backgroundColor: '#4BB543' }} onClick={() => decisionSubmit("Verified", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)} />
+                                            <Button id="rejectBtn" label="Reject" style={{ backgroundColor: '#FF6347' }} onClick={() => decisionSubmit("Rejected", item.suserid, new Date(item.dos).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), new Date(item.doe).toLocaleDateString("sv-SE", { year: 'numeric', day: '2-digit', month: '2-digit' }), item.reason)} />
                                         </Box>
                                     </Box>
                                 </Form>

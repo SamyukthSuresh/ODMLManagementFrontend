@@ -150,7 +150,7 @@ const TeacherSignIn = () => {
                             </Box>
 
                             <Box direction="row" justify="between" margin={{ top: 'medium' }}>
-                                <Text color="purple" onClick={() => { history.push('/teacherregister') }} >Not Signed Up?</Text>
+                                <Text id="newAcc" color="purple" onClick={() => { history.push('/teacherregister') }} >Not Signed Up?</Text>
                                 <Button data-testid="button" active={true} onClick={onSubmitSignIn} id="submitBtn" type="submit" label="Log In" primary />
                             </Box>
                             <Box data-testid="button2" pad="medium" justify="center" align="center" gap="medium">

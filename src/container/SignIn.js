@@ -159,7 +159,7 @@ const SignIn = () => {
                             </Box>
                             <Box data-testid="button2" pad="medium" justify="center" align="center" gap="medium">
                                 <Button hoverIndicator="light-1">
-                                    <Text color="purple" onClick={() => { history.push('/signup') }} >Not Signed Up?</Text>
+                                    <Text id="newAcc" color="purple" onClick={() => { history.push('/signup') }} >Not Signed Up?</Text>
                                 </Button>
                             </Box>
                         </Box>

@@ -104,7 +104,7 @@ export const TeacherRegister = () => {
                                 />
                             </FormField>
                             <Box direction="row" justify="between" margin={{ top: 'large' }}>
-                                <Button data-testid="button" type="submit" label="Register" primary />
+                                <Button data-testid="button" id="registerBtn" type="submit" label="Register" primary />
                             </Box>
                         </Form>
                     </Box>
@@ -129,8 +129,9 @@ export const TeacherRegister = () => {
                                 onChange={event => setPhoneNumber(event.target.value)}
                             />
                         </FormField>
-                        <FormField label="Date of Joining" name="doj">
+                        <FormField label="Date of Joining" >
                             <MaskedInput
+                                name="doj"
                                 mask={[
                                     {
                                         length: 4,
@@ -166,6 +167,7 @@ export const TeacherRegister = () => {
                         <Box margin={{ top: 'medium' }} gap="large">
                             <FormField label="Branch" name="branch" required>
                                 <Select
+                                    id="branch"
                                     options={['CSE', 'ECE', 'EEE', 'EIE', 'MEE', 'AEE', 'CHE', 'PHY', "Choose"]}
                                     value={branch}
                                     defaultValue={"Choose"}
@@ -174,9 +176,10 @@ export const TeacherRegister = () => {
                                 />
                             </FormField>
                         </Box>
-                        <FormField label="Preferred Password" name="passsword">
+                        <FormField label="Preferred Password" >
                             <Box direction="row" justify="between" margin={{ top: 'xxsmall' }}>
                                 <TextInput
+                                    name="passsword"
                                     plain
                                     type={reveal ? 'text' : 'password'}
                                     value={password}

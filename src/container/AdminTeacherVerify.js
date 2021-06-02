@@ -67,7 +67,7 @@ export const AdminTeacherVerify = () => {
                 <Text>Fetch the Teachers Details for Registration Approval</Text>
             </div>
             <div className="f2 w-100 pa2">
-                <Button data-testid="button" icon={<Update />} label="Fetch" onClick={getDetails} primary />
+                <Button data-testid="button" id="fetchBtn" icon={<Update />} label="Fetch" onClick={getDetails} primary />
             </div>
         </Box>
         {teacher ?
@@ -76,15 +76,15 @@ export const AdminTeacherVerify = () => {
                     <div className="pa1" key={a.tuserid}>
                         <div className="overflow-auto">
                             <table className="f5 w-100 mw8 center" cellSpacing="0">
-                                <tbody className="lh-copy">
+                                <tbody className="lh-copy" id="approveReq">
                                     <tr>
-                                        <td className="fw6 bb b--black-20 tl pb3 pr3 bg-white">{a.firstname}</td>
-                                        <td className="fw6 bb b--black-20 tl pb3 pr3 bg-white">{a.lastname}</td>
-                                        <td className="fw6 bb b--black-20 tl pb3 pr3 bg-white">{a.tuserid}</td>
-                                        <td className="fw6 bb b--black-20 tl pb3 pr3 bg-white">{a.email}</td>
-                                        <td className="fw6 bb b--black-20 tl pb3 pr3 bg-dark">{a.doj.substring(0, 10)}</td>
-                                        <Button icon={<Checkmark />} pad="medium" primary onClick={() => verifyTeacher(a.tuserid, "APPROVED")} />
-                                        <Button icon={<Close />} color="status-critical" onClick={() => verifyTeacher(a.tuserid, "REJECTED")} />
+                                        <td id="firstName" className="fw6 bb b--black-20 tl pb3 pr3 bg-white">{a.firstname}</td>
+                                        <td id="lastName" className="fw6 bb b--black-20 tl pb3 pr3 bg-white">{a.lastname}</td>
+                                        <td id="userId" className="fw6 bb b--black-20 tl pb3 pr3 bg-white">{a.tuserid}</td>
+                                        <td id="email" className="fw6 bb b--black-20 tl pb3 pr3 bg-white">{a.email}</td>
+                                        <td id="doj" className="fw6 bb b--black-20 tl pb3 pr3 bg-dark">{a.doj.substring(0, 10)}</td>
+                                        <Button id="check" icon={<Checkmark />} pad="medium" primary onClick={() => verifyTeacher(a.tuserid, "APPROVED")} />
+                                        <Button id="reject" icon={<Close />} color="status-critical" onClick={() => verifyTeacher(a.tuserid, "REJECTED")} />
                                     </tr>
                                 </tbody>
                             </table>
