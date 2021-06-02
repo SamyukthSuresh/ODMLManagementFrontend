@@ -13,7 +13,7 @@ import signImage from '../assets/adminSignIn.svg'
 import { grommet } from 'grommet/themes';
 import Swal from 'sweetalert2'
 const AdminSignIn = () => {
-    const urlSignIn = 'http://127.0.0.1:3001/signinadmin';
+    const urlSignIn = 'http://54.172.184.52:3001/signinadmin';
     const history = useHistory();
     const [password, setPassword] = useState("")
     const [reveal, setReveal] = useState(false);

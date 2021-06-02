@@ -16,9 +16,9 @@ import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/teacher.svg'
 import { grommet } from 'grommet/themes';
 const TeacherSignIn = () => {
-    const urlSignIn = 'http://127.0.0.1:3001/signinteacher';
-    const urlGetOtp = 'http://127.0.0.1:3001/getotpsignin';
-    const urlVerifyOtp = 'http://127.0.0.1:3001/verifysigninotp'
+    const urlSignIn = 'http://54.172.184.52:3001/signinteacher';
+    const urlGetOtp = 'http://54.172.184.52:3001/getotpsignin';
+    const urlVerifyOtp = 'http://54.172.184.52:3001/verifysigninotp'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

@@ -21,8 +21,8 @@ import LogOut from './LogOut';
 import { User, Search, Filter, Close } from 'grommet-icons';
 var dateFormat = require('dateformat');
 const StudentPastApplication = () => {
-    const urlPast = 'http://127.0.0.1:3001/leavestatus/';
-    const urlCancel = 'http://127.0.0.1:3001/cancelleaverequest';
+    const urlPast = 'http://54.172.184.52:3001/leavestatus/';
+    const urlCancel = 'http://54.172.184.52:3001/cancelleaverequest';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
