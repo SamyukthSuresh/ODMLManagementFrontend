@@ -1,9 +1,8 @@
-/* eslint-disable no-undef */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AdminSignIn from '../container/AdminSignIn';
 import { render, cleanup } from '@testing-library/react'
-//import "jest-dom/extend-expect";
 import renderer from 'react-test-renderer'
 
 afterEach(cleanup)
@@ -22,4 +21,3 @@ it("matches snapshot", () => {
     const tree = renderer.create(<AdminSignIn></AdminSignIn>).toJSON();
     expect(tree).toMatchSnapshot();
 })
-//<Button active={true} onClick={onSubmitSignIn} type="submit" label="Log In" primary /

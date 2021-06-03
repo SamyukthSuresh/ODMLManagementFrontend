@@ -5,6 +5,41 @@ exports[`matches snapshot 1`] = `
   className="StyledGrommet-sc-19lkkz7-0 bWDPZI"
 >
   <div
+    className="StyledBox-sc-13pk1d4-0 HvGCm"
+  >
+    <button
+      className="StyledButton-sc-323bzc-0 bexXh"
+      id="HomeBtn"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      type="button"
+    >
+      <div
+        className="StyledBox-sc-13pk1d4-0 iQEJEP"
+      >
+        <svg
+          aria-label="Home"
+          className="StyledIcon-ofa7kd-0 dcacLZ"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M1,11 L12,2 L23,11 M15,23 L15,15 L15,15 L9,15 L9,23 M4,23 L4,9 M20,23 L20,9"
+            fill="none"
+            stroke="#000"
+            strokeWidth="2"
+          />
+        </svg>
+        <div
+          className="StyledBox__StyledBoxGap-sc-13pk1d4-1 hjorfk"
+        />
+        Go to Home
+      </div>
+    </button>
+  </div>
+  <div
     className="StyledBox-sc-13pk1d4-0 bxevCE"
   >
     <div
@@ -71,6 +106,7 @@ exports[`matches snapshot 1`] = `
         <button
           className="StyledButton-sc-323bzc-0 iVPikU"
           data-testid="button"
+          id="submitBtn"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}

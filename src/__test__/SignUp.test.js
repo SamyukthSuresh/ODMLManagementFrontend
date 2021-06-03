@@ -1,9 +1,8 @@
-/* eslint-disable no-undef */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SignUp from '../container/SignUp';
 import { render, cleanup } from '@testing-library/react'
-//import "jest-dom/extend-expect";
 import renderer from 'react-test-renderer'
 
 afterEach(cleanup)
@@ -19,4 +18,3 @@ it("matches snapshot", () => {
     const tree = renderer.create(<SignUp></SignUp>).toJSON();
     expect(tree).toMatchSnapshot();
 })
-//<Button active={true} onClick={onSubmitSignIn} type="submit" label="Log In" primary /
