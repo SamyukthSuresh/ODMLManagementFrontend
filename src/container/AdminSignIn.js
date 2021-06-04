@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import './GlobalVariables'  
 import {
     Box,
     Button,
@@ -13,7 +14,8 @@ import signImage from '../assets/adminSignIn.svg'
 import { grommet } from 'grommet/themes';
 import Swal from 'sweetalert2'
 const AdminSignIn = () => {
-    const urlSignIn = 'http://18.234.218.254:3001/signinadmin';
+    const urlSignIn = 'http://'+{global,ip}.ip+':3001/signinadmin';
+    console.log(urlSignIn);
     const history = useHistory();
     const [password, setPassword] = useState("")
     const [reveal, setReveal] = useState(false);

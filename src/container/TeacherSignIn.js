@@ -15,10 +15,11 @@ import {
 import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/teacher.svg'
 import { grommet } from 'grommet/themes';
+import './GlobalVariables'
 const TeacherSignIn = () => {
-    const urlSignIn = 'http://18.234.218.254:3001/signinteacher';
-    const urlGetOtp = 'http://18.234.218.254:3001/getotpsignin';
-    const urlVerifyOtp = 'http://18.234.218.254:3001/verifysigninotp'
+    const urlSignIn = 'http://'+{global,ip}.ip+':3001/signinteacher';
+    const urlGetOtp = 'http://'+{global,ip}.ip+':3001/getotpsignin';
+    const urlVerifyOtp = 'http://'+{global,ip}.ip+':3001/verifysigninotp'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import Swal from 'sweetalert2'
+import './GlobalVariables'
 import {
     Box,
     Button,
@@ -16,9 +17,9 @@ import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/signIn.svg'
 import { grommet } from 'grommet/themes';
 const SignIn = () => {
-    const urlSignIn = 'http://18.234.218.254:3001/signinstudent';
-    const urlOtp = 'http://18.234.218.254:3001/getotpsignin';
-    const urlVerifyOtp = 'http://18.234.218.254:3001/verifysigninotp'
+    const urlSignIn = 'http://'+{global,ip}.ip+':3001/signinstudent';
+    const urlOtp = 'http://'+{global,ip}.ip+':3001/getotpsignin';
+    const urlVerifyOtp = 'http://'+{global,ip}.ip+':3001/verifysigninotp'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

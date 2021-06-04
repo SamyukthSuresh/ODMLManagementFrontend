@@ -19,10 +19,11 @@ import { grommet } from 'grommet/themes';
 import '../Theme/StudentPastApplication.css'
 import LogOut from './LogOut';
 import { User, Search, Filter, Close } from 'grommet-icons';
+import './GlobalVariables'
 var dateFormat = require('dateformat');
 const StudentPastApplication = () => {
-    const urlPast = 'http://18.234.218.254:3001/leavestatus/';
-    const urlCancel = 'http://18.234.218.254:3001/cancelleaverequest';
+    const urlPast = 'http://'+{global,ip}.ip+':3001/leavestatus/';
+    const urlCancel = 'http://'+{global,ip}.ip+':3001/cancelleaverequest';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

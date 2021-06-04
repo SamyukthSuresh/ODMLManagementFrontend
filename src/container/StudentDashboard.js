@@ -20,9 +20,10 @@ import Swal from 'sweetalert2'
 import { FormClose, StatusGood, User } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
+import './GlobalVariables'
 const StudentDashboard = () => {
-    const urlLeave = 'http://18.234.218.254:3001/leaverequest';
-    const urlTeacher = 'http://18.234.218.254:3001/teachdept/'
+    const urlLeave = 'http://'+{global,ip}.ip+':3001/leaverequest';
+    const urlTeacher = 'http://'+{global,ip}.ip+':3001/teachdept/'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

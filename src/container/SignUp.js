@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'
+import './GlobalVariables'
 import {
     Box,
     Button,
@@ -18,8 +19,8 @@ import {
 import { Hide, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 export const SignUp = () => {
-    const urlRegister = 'http://18.234.218.254:3001/registerstudent';
-    const urlVerify = 'http://18.234.218.254:3001/verifystudent'
+    const urlRegister = 'http://'+{global,ip}.ip+':3001/registerstudent';
+    const urlVerify = 'http://'+{global,ip}.ip+':3001/verifystudent'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

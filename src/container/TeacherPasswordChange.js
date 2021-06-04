@@ -22,9 +22,10 @@ import passImage from '../assets/teacherpass.svg'
 import LogOut from './LogOut';
 import { grommet } from 'grommet/themes';
 import Swal from 'sweetalert2'
+import './GlobalVariables'
 const TeacherPasswordChange = () => {
-    const urlChange = 'http://18.234.218.254:3001/changepassword';
-    const urlVerify = 'http://18.234.218.254:3001/verifyteacherotp';
+    const urlChange = 'http://'+{global,ip}.ip+':3001/changepassword';
+    const urlVerify = 'http://'+{global,ip}.ip+':3001/verifyteacherotp';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

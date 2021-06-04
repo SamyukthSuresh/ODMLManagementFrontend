@@ -14,8 +14,9 @@ import {
 import Swal from 'sweetalert2'
 import { Hide, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
+import './GlobalVariables'
 export const TeacherRegister = () => {
-    const urlRegister = 'http://18.234.218.254:3001/registerteacher';
+    const urlRegister = 'http://'+{global,ip}.ip+':3001/registerteacher';
     const daysInMonth = month => new Date(2021, month, 0).getDate();
     const [name, setName] = useState('');
     const [lastName, setlastName] = useState('');

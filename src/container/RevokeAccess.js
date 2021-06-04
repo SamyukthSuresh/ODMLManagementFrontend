@@ -6,8 +6,9 @@ import { User } from 'grommet-icons';
 import passImage from '../assets/lock.svg'
 import LogOut from './LogOut';
 import Swal from 'sweetalert2'
+import './GlobalVariables'
 export const RevokeAccess = () => {
-    const urlRevoke = 'http://18.234.218.254:3001/revoke';
+    const urlRevoke = 'http://'+{global,ip}.ip+':3001/revoke';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
