@@ -20,9 +20,8 @@ import '../Theme/StudentPastApplication.css'
 import LogOut from './LogOut';
 import { User, Search, Filter, Close } from 'grommet-icons';
 var dateFormat = require('dateformat');
+import { urlPast, urlCancel } from './Url'
 const StudentPastApplication = () => {
-    const urlPast = 'http://127.0.0.1:3001/leavestatus/';
-    const urlCancel = 'http://127.0.0.1:3001/cancelleaverequest';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -40,8 +39,8 @@ const StudentPastApplication = () => {
     const [filter, setFilter] = useState('Reason')
     const allOptions = ['Reason', 'Start Date']
     const items = [
-        { label: 'Dashboard', href: '/studentDashboard', value: 0 , id: 'dashboard' },
-        { label: 'Past Application', href: '/studentpastapplication', value: 1, id:'pastApplication' },
+        { label: 'Dashboard', href: '/studentDashboard', value: 0, id: 'dashboard' },
+        { label: 'Past Application', href: '/studentpastapplication', value: 1, id: 'pastApplication' },
         { label: 'Button', href: '#', value: 2 },
     ];
     useEffect(() => {
@@ -66,7 +65,7 @@ const StudentPastApplication = () => {
     }, [count, Toast]);
 
     const cancelLeave = (value) => {
-        var day=dateFormat(new Date(value.dos), "mm/dd/yyyy");
+        var day = dateFormat(new Date(value.dos), "mm/dd/yyyy");
         axios.delete(urlCancel, {
             headers: {
                 Authorization: null

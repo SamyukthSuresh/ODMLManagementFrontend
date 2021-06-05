@@ -15,10 +15,8 @@ import {
 import { Hide, View, Home } from 'grommet-icons';
 import signImage from '../assets/teacher.svg'
 import { grommet } from 'grommet/themes';
+import { urlSignInTeacher, urlGetOtp, urlVerifyOtp } from './Url'
 const TeacherSignIn = () => {
-    const urlSignIn = 'http://127.0.0.1:3001/signinteacher';
-    const urlGetOtp = 'http://127.0.0.1:3001/getotpsignin';
-    const urlVerifyOtp = 'http://127.0.0.1:3001/verifysigninotp'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -39,7 +37,7 @@ const TeacherSignIn = () => {
     const [roll, setRoll] = useState()
     const onSubmitSignIn = () => {
         if (username && password) {
-            axios.post(urlSignIn, { tuserid: username, password: password })
+            axios.post(urlSignInTeacher, { tuserid: username, password: password })
                 .then(res => {
                     if ((res.data.status).length > 0) {
                         localStorage.setItem("tuserid", res.data.tuserid)

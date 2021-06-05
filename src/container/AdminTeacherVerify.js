@@ -5,9 +5,8 @@ import { grommet } from 'grommet/themes';
 import { Update, Checkmark, Close, StatusWarning, FormClose, StatusGood, User } from 'grommet-icons'
 import empty from '../assets/empty.svg'
 import LogOut from './LogOut';
+import { urlForms, urlDecision } from './Url.js'
 export const AdminTeacherVerify = () => {
-    const urlForms = 'http://127.0.0.1:3001/forms';
-    const urlDecision = 'http://127.0.0.1:3001/decision';
     const [open, setOpen] = useState(true);
     const [message, setMessage] = useState("Succcesfully Signed In To Admin Portal")
     const [msgstatus, setMsgStatus] = useState("status-ok")
