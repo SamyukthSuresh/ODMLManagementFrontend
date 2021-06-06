@@ -14,9 +14,8 @@ import {
 import Swal from 'sweetalert2'
 import { Hide, View } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
-import './GlobalVariables'
+import { urlRegisterTeacher } from './Url';
 export const TeacherRegister = () => {
-    const urlRegister = 'http://'+{global,ip}.ip+':3001/registerteacher';
     const daysInMonth = month => new Date(2021, month, 0).getDate();
     const [name, setName] = useState('');
     const [lastName, setlastName] = useState('');
@@ -29,7 +28,7 @@ export const TeacherRegister = () => {
     const [reveal, setReveal] = useState("")
     const onSubmitSignUp = () => {
         if (name && lastName && email && branch && password && doj && phNo) {
-            axios.post(urlRegister, {
+            axios.post(urlRegisterTeacher, {
                 tuserid: rollNo,
                 lastname: lastName,
                 firstname: name,

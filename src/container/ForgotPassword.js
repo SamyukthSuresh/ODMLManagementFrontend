@@ -11,9 +11,8 @@ import {
 import Swal from 'sweetalert2'
 import passwordImage from '../assets/password.svg'
 import { grommet } from 'grommet/themes';
-import './GlobalVariables'
+import { urlPass } from './Url'
 const ForgotPassword = () => {
-    const urlPass = 'http://'+{global,ip}.ip+':3001/requestpassword';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',

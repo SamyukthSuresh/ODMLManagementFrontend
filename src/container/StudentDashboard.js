@@ -20,10 +20,8 @@ import Swal from 'sweetalert2'
 import { FormClose, StatusGood, User } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
-import './GlobalVariables'
+import { urlLeave, urlTeacher } from './Url.js'
 const StudentDashboard = () => {
-    const urlLeave = 'http://'+{global,ip}.ip+':3001/leaverequest';
-    const urlTeacher = 'http://'+{global,ip}.ip+':3001/teachdept/'
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -110,8 +108,8 @@ const StudentDashboard = () => {
     }
     const onClose = () => setOpen(undefined);
     const items = [
-        { label: 'Dashboard', href: '/studentDashboard', value: 0, id:'dashboard' },
-        { label: 'Past Application', href: '/studentpastapplication', value: 1, id:'pastApplication' },
+        { label: 'Dashboard', href: '/studentDashboard', value: 0, id: 'dashboard' },
+        { label: 'Past Application', href: '/studentpastapplication', value: 1, id: 'pastApplication' },
         { label: 'Button', href: '#', value: 2 },
     ];
     return (
@@ -141,8 +139,8 @@ const StudentDashboard = () => {
                             setHaveAlias(false)
                         }}
                     >
-                        <FormField label="TUserID" name="tuserid"  required>
-                            <Select 
+                        <FormField label="TUserID" name="tuserid" required>
+                            <Select
                                 options={teachers.map(item => {
                                     return `${item.tuserid} - ${item.firstname} ${item.lastname}`
                                 })}
@@ -243,7 +241,7 @@ const StudentDashboard = () => {
                             <TextInput name="reason" />
                         </FormField>
                         <Box direction="row" justify="between" margin={{ top: 'medium' }}>
-                            <Button type="reset" label="Reset" id="resetBtn"/>
+                            <Button type="reset" label="Reset" id="resetBtn" />
                             <Button type="submit" id="submitBtn" label="Submit" primary />
                         </Box>
                     </Form>

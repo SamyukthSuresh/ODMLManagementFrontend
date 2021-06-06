@@ -15,12 +15,8 @@ import {
 import { FormClose, Info, StatusGood, User, Search } from 'grommet-icons';
 import { grommet } from 'grommet/themes';
 import LogOut from './LogOut';
-import './GlobalVariables'
+import { urlTeacherLeave, urlChairLeave, urlDecisionTeacher, urlNotify } from './Url'
 const TeacherDashboard = () => {
-    const urlTeacherLeave = 'http://'+{global,ip}.ip+':3001/teacherleaverecords/';
-    const urlChairLeave = 'http://'+{global,ip}.ip+':3001/chairleaverecords/';
-    const urlDecision = 'http://'+{global,ip}.ip+':3001/decisionteacher';
-    const urlNotify = 'http://'+{global,ip}.ip+':3001/notifystudent';
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -69,7 +65,7 @@ const TeacherDashboard = () => {
                 decision = "Approved"
             }
         }
-        axios.post(urlDecision, { status: decision, suserid: suserid, dos: dos })
+        axios.post(urlDecisionTeacher, { status: decision, suserid: suserid, dos: dos })
             .then(res => {
                 if (decision === "Approved" || decision === "Rejected") {
                     axios.post(urlNotify, { status: decision, suserid: suserid, dos: dos, doe: doe, reason: reason })

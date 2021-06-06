@@ -94,7 +94,7 @@ export const Welcome = () => {
         }
     }
     return (
-        <Grommet theme={theme} full>
+        <Grommet full theme={theme}>
             <Box align="center" pad="xxsmall">
                 <Carousel controls={false} play={3000}>
                     <Box pad="xxxsmall" background="accent-1">
